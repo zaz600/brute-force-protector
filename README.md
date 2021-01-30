@@ -8,4 +8,5 @@
 - [ ] grpc server  
 - [ ] bruteforce protector cli (grpc)
 - [ ] ctx
+- [ ] logger
 - [ ] tests
