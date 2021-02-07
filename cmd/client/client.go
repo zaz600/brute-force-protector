@@ -17,6 +17,9 @@ func main() {
 	defer conn.Close()
 
 	c := protectorpb.NewBruteforceProtectorServiceClient(conn)
+	_, _ = c.AddBlackList(context.TODO(), &protectorpb.AddBlackListRequest{NetworkCIDR: "127.0.0.1/24"})
+	_, _ = c.RemoveBlackList(context.TODO(), &protectorpb.RemoveBlackListRequest{NetworkCIDR: "127.0.0.1/24"})
+
 	resp, err := c.Verify(context.Background(), &protectorpb.VerifyRequest{VerifyParams: &protectorpb.VerifyParams{
 		Login:    "admin",
 		Password: "hash",
@@ -25,5 +28,5 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	log.Printf("resp: %v", resp)
+	log.Printf("resp: %v", resp.Ok)
 }

@@ -105,7 +105,7 @@ func (b *BruteForceProtector) limitReached(login string, password string, ip str
 	return loginLimitReached || passwordLimitReached || ipLimitReached
 }
 
-func (b *BruteForceProtector) ResetLogin(login string) {
+func (b *BruteForceProtector) ResetLogin(ctx context.Context, login string) {
 	b.loginLimiter.Reset(login)
 }
 
@@ -113,18 +113,18 @@ func (b *BruteForceProtector) ResetIP(ip string) {
 	b.ipLimiter.Reset(ip)
 }
 
-func (b *BruteForceProtector) AddBlackList(networkCIDR string) error {
+func (b *BruteForceProtector) AddBlackList(ctx context.Context, networkCIDR string) error {
 	return b.blackList.Add(networkCIDR)
 }
 
-func (b *BruteForceProtector) RemoveBlackList(networkCIDR string) {
+func (b *BruteForceProtector) RemoveBlackList(ctx context.Context, networkCIDR string) {
 	b.blackList.Remove(networkCIDR)
 }
 
-func (b *BruteForceProtector) AddWhiteList(networkCIDR string) error {
+func (b *BruteForceProtector) AddWhiteList(ctx context.Context, networkCIDR string) error {
 	return b.whiteList.Add(networkCIDR)
 }
 
-func (b *BruteForceProtector) RemoveWhiteList(networkCIDR string) {
+func (b *BruteForceProtector) RemoveWhiteList(ctx context.Context, networkCIDR string) {
 	b.whiteList.Remove(networkCIDR)
 }

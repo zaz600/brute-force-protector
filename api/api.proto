@@ -18,6 +18,50 @@ message VerifyResponse {
   bool ok = 1;
 }
 
+message ResetLoginLimitRequest {
+  string login = 1;
+}
+
+message ResetLoginLimitResponse {}
+
+message ResetIPLimitRequest {
+  string login = 1;
+}
+message ResetIPLimitResponse {}
+
+message AddBlackListRequest {
+  string networkCIDR = 1;
+}
+
+message AddBlackListResponse {}
+
+message RemoveBlackListRequest {
+  string networkCIDR = 1;
+}
+
+message RemoveBlackListResponse {}
+
+message AddWhiteListRequest {
+  string networkCIDR = 1;
+}
+
+message AddWhiteListResponse {}
+
+message RemoveWhiteListRequest {
+  string networkCIDR = 1;
+}
+
+message RemoveWhiteListResponse {}
+
+
 service BruteforceProtectorService{
   rpc Verify(VerifyRequest) returns(VerifyResponse) {};
+  rpc ResetLogin(ResetLoginLimitRequest) returns(ResetLoginLimitResponse) {};
+  rpc ResetIP(ResetIPLimitRequest) returns(ResetIPLimitResponse) {};
+
+  rpc AddBlackList(AddBlackListRequest) returns(AddBlackListResponse) {};
+  rpc RemoveBlackList(RemoveBlackListRequest) returns(RemoveBlackListResponse) {};
+
+  rpc AddWhiteList(AddWhiteListRequest) returns(AddWhiteListResponse) {};
+  rpc RemoveWhiteList(RemoveWhiteListRequest) returns(RemoveWhiteListResponse) {};
 }

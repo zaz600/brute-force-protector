@@ -1,7 +1,6 @@
 package main
 
 import (
-	"context"
 	"log"
 	"net"
 
@@ -9,24 +8,8 @@ import (
 
 	protectorpb "github.com/zaz600/brute-force-protector/api"
 	"github.com/zaz600/brute-force-protector/internal/bruteforceprotector"
+	"github.com/zaz600/brute-force-protector/internal/handler"
 )
-
-type server struct {
-	protectorpb.UnimplementedBruteforceProtectorServiceServer
-	protector *bruteforceprotector.BruteForceProtector
-}
-
-func (s *server) Verify(ctx context.Context, req *protectorpb.VerifyRequest) (*protectorpb.VerifyResponse, error) {
-	log.Printf("verify with params: %v", req)
-	ip := req.VerifyParams.GetIp()
-	login := req.VerifyParams.GetIp()
-	password := req.VerifyParams.GetIp()
-
-	resp := &protectorpb.VerifyResponse{
-		Ok: s.protector.Verify(ctx, login, password, ip),
-	}
-	return resp, nil
-}
 
 func main() {
 	listener, err := net.Listen("tcp", "0.0.0.0:50051")
@@ -34,13 +17,13 @@ func main() {
 		log.Fatal(err)
 	}
 
-	srv := &server{
-		protector: bruteforceprotector.NewBruteForceProtector(
-			bruteforceprotector.WithLoginLimit(10),
-			bruteforceprotector.WithPasswordLimit(100),
-			bruteforceprotector.WithIPdLimit(1000),
-		),
-	}
+	protector := bruteforceprotector.NewBruteForceProtector(
+		bruteforceprotector.WithLoginLimit(10),
+		bruteforceprotector.WithPasswordLimit(100),
+		bruteforceprotector.WithIPdLimit(1000),
+	)
+
+	srv := handler.NewServer(protector)
 	grpcServer := grpc.NewServer()
 	protectorpb.RegisterBruteforceProtectorServiceServer(grpcServer, srv)
 	if err := grpcServer.Serve(listener); err != nil {

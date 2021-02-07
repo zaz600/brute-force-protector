@@ -182,6 +182,516 @@ func (x *VerifyResponse) GetOk() bool {
 	return false
 }
 
+type ResetLoginLimitRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Login string `protobuf:"bytes,1,opt,name=login,proto3" json:"login,omitempty"`
+}
+
+func (x *ResetLoginLimitRequest) Reset() {
+	*x = ResetLoginLimitRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_api_api_proto_msgTypes[3]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ResetLoginLimitRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ResetLoginLimitRequest) ProtoMessage() {}
+
+func (x *ResetLoginLimitRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_api_api_proto_msgTypes[3]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ResetLoginLimitRequest.ProtoReflect.Descriptor instead.
+func (*ResetLoginLimitRequest) Descriptor() ([]byte, []int) {
+	return file_api_api_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *ResetLoginLimitRequest) GetLogin() string {
+	if x != nil {
+		return x.Login
+	}
+	return ""
+}
+
+type ResetLoginLimitResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *ResetLoginLimitResponse) Reset() {
+	*x = ResetLoginLimitResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_api_api_proto_msgTypes[4]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ResetLoginLimitResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ResetLoginLimitResponse) ProtoMessage() {}
+
+func (x *ResetLoginLimitResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_api_api_proto_msgTypes[4]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ResetLoginLimitResponse.ProtoReflect.Descriptor instead.
+func (*ResetLoginLimitResponse) Descriptor() ([]byte, []int) {
+	return file_api_api_proto_rawDescGZIP(), []int{4}
+}
+
+type ResetIPLimitRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Login string `protobuf:"bytes,1,opt,name=login,proto3" json:"login,omitempty"`
+}
+
+func (x *ResetIPLimitRequest) Reset() {
+	*x = ResetIPLimitRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_api_api_proto_msgTypes[5]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ResetIPLimitRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ResetIPLimitRequest) ProtoMessage() {}
+
+func (x *ResetIPLimitRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_api_api_proto_msgTypes[5]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ResetIPLimitRequest.ProtoReflect.Descriptor instead.
+func (*ResetIPLimitRequest) Descriptor() ([]byte, []int) {
+	return file_api_api_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *ResetIPLimitRequest) GetLogin() string {
+	if x != nil {
+		return x.Login
+	}
+	return ""
+}
+
+type ResetIPLimitResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *ResetIPLimitResponse) Reset() {
+	*x = ResetIPLimitResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_api_api_proto_msgTypes[6]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ResetIPLimitResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ResetIPLimitResponse) ProtoMessage() {}
+
+func (x *ResetIPLimitResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_api_api_proto_msgTypes[6]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ResetIPLimitResponse.ProtoReflect.Descriptor instead.
+func (*ResetIPLimitResponse) Descriptor() ([]byte, []int) {
+	return file_api_api_proto_rawDescGZIP(), []int{6}
+}
+
+type AddBlackListRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	NetworkCIDR string `protobuf:"bytes,1,opt,name=networkCIDR,proto3" json:"networkCIDR,omitempty"`
+}
+
+func (x *AddBlackListRequest) Reset() {
+	*x = AddBlackListRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_api_api_proto_msgTypes[7]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *AddBlackListRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AddBlackListRequest) ProtoMessage() {}
+
+func (x *AddBlackListRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_api_api_proto_msgTypes[7]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AddBlackListRequest.ProtoReflect.Descriptor instead.
+func (*AddBlackListRequest) Descriptor() ([]byte, []int) {
+	return file_api_api_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *AddBlackListRequest) GetNetworkCIDR() string {
+	if x != nil {
+		return x.NetworkCIDR
+	}
+	return ""
+}
+
+type AddBlackListResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *AddBlackListResponse) Reset() {
+	*x = AddBlackListResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_api_api_proto_msgTypes[8]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *AddBlackListResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AddBlackListResponse) ProtoMessage() {}
+
+func (x *AddBlackListResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_api_api_proto_msgTypes[8]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AddBlackListResponse.ProtoReflect.Descriptor instead.
+func (*AddBlackListResponse) Descriptor() ([]byte, []int) {
+	return file_api_api_proto_rawDescGZIP(), []int{8}
+}
+
+type RemoveBlackListRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	NetworkCIDR string `protobuf:"bytes,1,opt,name=networkCIDR,proto3" json:"networkCIDR,omitempty"`
+}
+
+func (x *RemoveBlackListRequest) Reset() {
+	*x = RemoveBlackListRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_api_api_proto_msgTypes[9]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *RemoveBlackListRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RemoveBlackListRequest) ProtoMessage() {}
+
+func (x *RemoveBlackListRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_api_api_proto_msgTypes[9]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RemoveBlackListRequest.ProtoReflect.Descriptor instead.
+func (*RemoveBlackListRequest) Descriptor() ([]byte, []int) {
+	return file_api_api_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *RemoveBlackListRequest) GetNetworkCIDR() string {
+	if x != nil {
+		return x.NetworkCIDR
+	}
+	return ""
+}
+
+type RemoveBlackListResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *RemoveBlackListResponse) Reset() {
+	*x = RemoveBlackListResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_api_api_proto_msgTypes[10]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *RemoveBlackListResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RemoveBlackListResponse) ProtoMessage() {}
+
+func (x *RemoveBlackListResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_api_api_proto_msgTypes[10]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RemoveBlackListResponse.ProtoReflect.Descriptor instead.
+func (*RemoveBlackListResponse) Descriptor() ([]byte, []int) {
+	return file_api_api_proto_rawDescGZIP(), []int{10}
+}
+
+type AddWhiteListRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	NetworkCIDR string `protobuf:"bytes,1,opt,name=networkCIDR,proto3" json:"networkCIDR,omitempty"`
+}
+
+func (x *AddWhiteListRequest) Reset() {
+	*x = AddWhiteListRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_api_api_proto_msgTypes[11]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *AddWhiteListRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AddWhiteListRequest) ProtoMessage() {}
+
+func (x *AddWhiteListRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_api_api_proto_msgTypes[11]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AddWhiteListRequest.ProtoReflect.Descriptor instead.
+func (*AddWhiteListRequest) Descriptor() ([]byte, []int) {
+	return file_api_api_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *AddWhiteListRequest) GetNetworkCIDR() string {
+	if x != nil {
+		return x.NetworkCIDR
+	}
+	return ""
+}
+
+type AddWhiteListResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *AddWhiteListResponse) Reset() {
+	*x = AddWhiteListResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_api_api_proto_msgTypes[12]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *AddWhiteListResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AddWhiteListResponse) ProtoMessage() {}
+
+func (x *AddWhiteListResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_api_api_proto_msgTypes[12]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AddWhiteListResponse.ProtoReflect.Descriptor instead.
+func (*AddWhiteListResponse) Descriptor() ([]byte, []int) {
+	return file_api_api_proto_rawDescGZIP(), []int{12}
+}
+
+type RemoveWhiteListRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	NetworkCIDR string `protobuf:"bytes,1,opt,name=networkCIDR,proto3" json:"networkCIDR,omitempty"`
+}
+
+func (x *RemoveWhiteListRequest) Reset() {
+	*x = RemoveWhiteListRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_api_api_proto_msgTypes[13]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *RemoveWhiteListRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RemoveWhiteListRequest) ProtoMessage() {}
+
+func (x *RemoveWhiteListRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_api_api_proto_msgTypes[13]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RemoveWhiteListRequest.ProtoReflect.Descriptor instead.
+func (*RemoveWhiteListRequest) Descriptor() ([]byte, []int) {
+	return file_api_api_proto_rawDescGZIP(), []int{13}
+}
+
+func (x *RemoveWhiteListRequest) GetNetworkCIDR() string {
+	if x != nil {
+		return x.NetworkCIDR
+	}
+	return ""
+}
+
+type RemoveWhiteListResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *RemoveWhiteListResponse) Reset() {
+	*x = RemoveWhiteListResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_api_api_proto_msgTypes[14]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *RemoveWhiteListResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RemoveWhiteListResponse) ProtoMessage() {}
+
+func (x *RemoveWhiteListResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_api_api_proto_msgTypes[14]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RemoveWhiteListResponse.ProtoReflect.Descriptor instead.
+func (*RemoveWhiteListResponse) Descriptor() ([]byte, []int) {
+	return file_api_api_proto_rawDescGZIP(), []int{14}
+}
+
 var File_api_api_proto protoreflect.FileDescriptor
 
 var file_api_api_proto_rawDesc = []byte{
@@ -200,15 +710,85 @@ var file_api_api_proto_rawDesc = []byte{
 	0x52, 0x0c, 0x76, 0x65, 0x72, 0x69, 0x66, 0x79, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x22, 0x20,
 	0x0a, 0x0e, 0x56, 0x65, 0x72, 0x69, 0x66, 0x79, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
 	0x12, 0x0e, 0x0a, 0x02, 0x6f, 0x6b, 0x18, 0x01, 0x20, 0x01, 0x28, 0x08, 0x52, 0x02, 0x6f, 0x6b,
-	0x32, 0x71, 0x0a, 0x1a, 0x42, 0x72, 0x75, 0x74, 0x65, 0x66, 0x6f, 0x72, 0x63, 0x65, 0x50, 0x72,
-	0x6f, 0x74, 0x65, 0x63, 0x74, 0x6f, 0x72, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x53,
-	0x0a, 0x06, 0x56, 0x65, 0x72, 0x69, 0x66, 0x79, 0x12, 0x22, 0x2e, 0x62, 0x72, 0x75, 0x74, 0x65,
-	0x66, 0x6f, 0x72, 0x63, 0x65, 0x70, 0x72, 0x6f, 0x74, 0x65, 0x63, 0x74, 0x6f, 0x72, 0x2e, 0x56,
-	0x65, 0x72, 0x69, 0x66, 0x79, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x23, 0x2e, 0x62,
-	0x72, 0x75, 0x74, 0x65, 0x66, 0x6f, 0x72, 0x63, 0x65, 0x70, 0x72, 0x6f, 0x74, 0x65, 0x63, 0x74,
-	0x6f, 0x72, 0x2e, 0x56, 0x65, 0x72, 0x69, 0x66, 0x79, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
-	0x65, 0x22, 0x00, 0x42, 0x11, 0x5a, 0x0f, 0x61, 0x70, 0x69, 0x3b, 0x70, 0x72, 0x6f, 0x74, 0x65,
-	0x63, 0x74, 0x6f, 0x72, 0x70, 0x62, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x22, 0x2e, 0x0a, 0x16, 0x52, 0x65, 0x73, 0x65, 0x74, 0x4c, 0x6f, 0x67, 0x69, 0x6e, 0x4c, 0x69,
+	0x6d, 0x69, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x14, 0x0a, 0x05, 0x6c, 0x6f,
+	0x67, 0x69, 0x6e, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x6c, 0x6f, 0x67, 0x69, 0x6e,
+	0x22, 0x19, 0x0a, 0x17, 0x52, 0x65, 0x73, 0x65, 0x74, 0x4c, 0x6f, 0x67, 0x69, 0x6e, 0x4c, 0x69,
+	0x6d, 0x69, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x2b, 0x0a, 0x13, 0x52,
+	0x65, 0x73, 0x65, 0x74, 0x49, 0x50, 0x4c, 0x69, 0x6d, 0x69, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65,
+	0x73, 0x74, 0x12, 0x14, 0x0a, 0x05, 0x6c, 0x6f, 0x67, 0x69, 0x6e, 0x18, 0x01, 0x20, 0x01, 0x28,
+	0x09, 0x52, 0x05, 0x6c, 0x6f, 0x67, 0x69, 0x6e, 0x22, 0x16, 0x0a, 0x14, 0x52, 0x65, 0x73, 0x65,
+	0x74, 0x49, 0x50, 0x4c, 0x69, 0x6d, 0x69, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
+	0x22, 0x37, 0x0a, 0x13, 0x41, 0x64, 0x64, 0x42, 0x6c, 0x61, 0x63, 0x6b, 0x4c, 0x69, 0x73, 0x74,
+	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x20, 0x0a, 0x0b, 0x6e, 0x65, 0x74, 0x77, 0x6f,
+	0x72, 0x6b, 0x43, 0x49, 0x44, 0x52, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0b, 0x6e, 0x65,
+	0x74, 0x77, 0x6f, 0x72, 0x6b, 0x43, 0x49, 0x44, 0x52, 0x22, 0x16, 0x0a, 0x14, 0x41, 0x64, 0x64,
+	0x42, 0x6c, 0x61, 0x63, 0x6b, 0x4c, 0x69, 0x73, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
+	0x65, 0x22, 0x3a, 0x0a, 0x16, 0x52, 0x65, 0x6d, 0x6f, 0x76, 0x65, 0x42, 0x6c, 0x61, 0x63, 0x6b,
+	0x4c, 0x69, 0x73, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x20, 0x0a, 0x0b, 0x6e,
+	0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x43, 0x49, 0x44, 0x52, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09,
+	0x52, 0x0b, 0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x43, 0x49, 0x44, 0x52, 0x22, 0x19, 0x0a,
+	0x17, 0x52, 0x65, 0x6d, 0x6f, 0x76, 0x65, 0x42, 0x6c, 0x61, 0x63, 0x6b, 0x4c, 0x69, 0x73, 0x74,
+	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x37, 0x0a, 0x13, 0x41, 0x64, 0x64, 0x57,
+	0x68, 0x69, 0x74, 0x65, 0x4c, 0x69, 0x73, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12,
+	0x20, 0x0a, 0x0b, 0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x43, 0x49, 0x44, 0x52, 0x18, 0x01,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x0b, 0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x43, 0x49, 0x44,
+	0x52, 0x22, 0x16, 0x0a, 0x14, 0x41, 0x64, 0x64, 0x57, 0x68, 0x69, 0x74, 0x65, 0x4c, 0x69, 0x73,
+	0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x3a, 0x0a, 0x16, 0x52, 0x65, 0x6d,
+	0x6f, 0x76, 0x65, 0x57, 0x68, 0x69, 0x74, 0x65, 0x4c, 0x69, 0x73, 0x74, 0x52, 0x65, 0x71, 0x75,
+	0x65, 0x73, 0x74, 0x12, 0x20, 0x0a, 0x0b, 0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x43, 0x49,
+	0x44, 0x52, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0b, 0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72,
+	0x6b, 0x43, 0x49, 0x44, 0x52, 0x22, 0x19, 0x0a, 0x17, 0x52, 0x65, 0x6d, 0x6f, 0x76, 0x65, 0x57,
+	0x68, 0x69, 0x74, 0x65, 0x4c, 0x69, 0x73, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
+	0x32, 0xec, 0x05, 0x0a, 0x1a, 0x42, 0x72, 0x75, 0x74, 0x65, 0x66, 0x6f, 0x72, 0x63, 0x65, 0x50,
+	0x72, 0x6f, 0x74, 0x65, 0x63, 0x74, 0x6f, 0x72, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12,
+	0x53, 0x0a, 0x06, 0x56, 0x65, 0x72, 0x69, 0x66, 0x79, 0x12, 0x22, 0x2e, 0x62, 0x72, 0x75, 0x74,
+	0x65, 0x66, 0x6f, 0x72, 0x63, 0x65, 0x70, 0x72, 0x6f, 0x74, 0x65, 0x63, 0x74, 0x6f, 0x72, 0x2e,
+	0x56, 0x65, 0x72, 0x69, 0x66, 0x79, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x23, 0x2e,
+	0x62, 0x72, 0x75, 0x74, 0x65, 0x66, 0x6f, 0x72, 0x63, 0x65, 0x70, 0x72, 0x6f, 0x74, 0x65, 0x63,
+	0x74, 0x6f, 0x72, 0x2e, 0x56, 0x65, 0x72, 0x69, 0x66, 0x79, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
+	0x73, 0x65, 0x22, 0x00, 0x12, 0x69, 0x0a, 0x0a, 0x52, 0x65, 0x73, 0x65, 0x74, 0x4c, 0x6f, 0x67,
+	0x69, 0x6e, 0x12, 0x2b, 0x2e, 0x62, 0x72, 0x75, 0x74, 0x65, 0x66, 0x6f, 0x72, 0x63, 0x65, 0x70,
+	0x72, 0x6f, 0x74, 0x65, 0x63, 0x74, 0x6f, 0x72, 0x2e, 0x52, 0x65, 0x73, 0x65, 0x74, 0x4c, 0x6f,
+	0x67, 0x69, 0x6e, 0x4c, 0x69, 0x6d, 0x69, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a,
+	0x2c, 0x2e, 0x62, 0x72, 0x75, 0x74, 0x65, 0x66, 0x6f, 0x72, 0x63, 0x65, 0x70, 0x72, 0x6f, 0x74,
+	0x65, 0x63, 0x74, 0x6f, 0x72, 0x2e, 0x52, 0x65, 0x73, 0x65, 0x74, 0x4c, 0x6f, 0x67, 0x69, 0x6e,
+	0x4c, 0x69, 0x6d, 0x69, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12,
+	0x60, 0x0a, 0x07, 0x52, 0x65, 0x73, 0x65, 0x74, 0x49, 0x50, 0x12, 0x28, 0x2e, 0x62, 0x72, 0x75,
+	0x74, 0x65, 0x66, 0x6f, 0x72, 0x63, 0x65, 0x70, 0x72, 0x6f, 0x74, 0x65, 0x63, 0x74, 0x6f, 0x72,
+	0x2e, 0x52, 0x65, 0x73, 0x65, 0x74, 0x49, 0x50, 0x4c, 0x69, 0x6d, 0x69, 0x74, 0x52, 0x65, 0x71,
+	0x75, 0x65, 0x73, 0x74, 0x1a, 0x29, 0x2e, 0x62, 0x72, 0x75, 0x74, 0x65, 0x66, 0x6f, 0x72, 0x63,
+	0x65, 0x70, 0x72, 0x6f, 0x74, 0x65, 0x63, 0x74, 0x6f, 0x72, 0x2e, 0x52, 0x65, 0x73, 0x65, 0x74,
+	0x49, 0x50, 0x4c, 0x69, 0x6d, 0x69, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22,
+	0x00, 0x12, 0x65, 0x0a, 0x0c, 0x41, 0x64, 0x64, 0x42, 0x6c, 0x61, 0x63, 0x6b, 0x4c, 0x69, 0x73,
+	0x74, 0x12, 0x28, 0x2e, 0x62, 0x72, 0x75, 0x74, 0x65, 0x66, 0x6f, 0x72, 0x63, 0x65, 0x70, 0x72,
+	0x6f, 0x74, 0x65, 0x63, 0x74, 0x6f, 0x72, 0x2e, 0x41, 0x64, 0x64, 0x42, 0x6c, 0x61, 0x63, 0x6b,
+	0x4c, 0x69, 0x73, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x29, 0x2e, 0x62, 0x72,
+	0x75, 0x74, 0x65, 0x66, 0x6f, 0x72, 0x63, 0x65, 0x70, 0x72, 0x6f, 0x74, 0x65, 0x63, 0x74, 0x6f,
+	0x72, 0x2e, 0x41, 0x64, 0x64, 0x42, 0x6c, 0x61, 0x63, 0x6b, 0x4c, 0x69, 0x73, 0x74, 0x52, 0x65,
+	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x6e, 0x0a, 0x0f, 0x52, 0x65, 0x6d, 0x6f,
+	0x76, 0x65, 0x42, 0x6c, 0x61, 0x63, 0x6b, 0x4c, 0x69, 0x73, 0x74, 0x12, 0x2b, 0x2e, 0x62, 0x72,
+	0x75, 0x74, 0x65, 0x66, 0x6f, 0x72, 0x63, 0x65, 0x70, 0x72, 0x6f, 0x74, 0x65, 0x63, 0x74, 0x6f,
+	0x72, 0x2e, 0x52, 0x65, 0x6d, 0x6f, 0x76, 0x65, 0x42, 0x6c, 0x61, 0x63, 0x6b, 0x4c, 0x69, 0x73,
+	0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x2c, 0x2e, 0x62, 0x72, 0x75, 0x74, 0x65,
+	0x66, 0x6f, 0x72, 0x63, 0x65, 0x70, 0x72, 0x6f, 0x74, 0x65, 0x63, 0x74, 0x6f, 0x72, 0x2e, 0x52,
+	0x65, 0x6d, 0x6f, 0x76, 0x65, 0x42, 0x6c, 0x61, 0x63, 0x6b, 0x4c, 0x69, 0x73, 0x74, 0x52, 0x65,
+	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x65, 0x0a, 0x0c, 0x41, 0x64, 0x64, 0x57,
+	0x68, 0x69, 0x74, 0x65, 0x4c, 0x69, 0x73, 0x74, 0x12, 0x28, 0x2e, 0x62, 0x72, 0x75, 0x74, 0x65,
+	0x66, 0x6f, 0x72, 0x63, 0x65, 0x70, 0x72, 0x6f, 0x74, 0x65, 0x63, 0x74, 0x6f, 0x72, 0x2e, 0x41,
+	0x64, 0x64, 0x57, 0x68, 0x69, 0x74, 0x65, 0x4c, 0x69, 0x73, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65,
+	0x73, 0x74, 0x1a, 0x29, 0x2e, 0x62, 0x72, 0x75, 0x74, 0x65, 0x66, 0x6f, 0x72, 0x63, 0x65, 0x70,
+	0x72, 0x6f, 0x74, 0x65, 0x63, 0x74, 0x6f, 0x72, 0x2e, 0x41, 0x64, 0x64, 0x57, 0x68, 0x69, 0x74,
+	0x65, 0x4c, 0x69, 0x73, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12,
+	0x6e, 0x0a, 0x0f, 0x52, 0x65, 0x6d, 0x6f, 0x76, 0x65, 0x57, 0x68, 0x69, 0x74, 0x65, 0x4c, 0x69,
+	0x73, 0x74, 0x12, 0x2b, 0x2e, 0x62, 0x72, 0x75, 0x74, 0x65, 0x66, 0x6f, 0x72, 0x63, 0x65, 0x70,
+	0x72, 0x6f, 0x74, 0x65, 0x63, 0x74, 0x6f, 0x72, 0x2e, 0x52, 0x65, 0x6d, 0x6f, 0x76, 0x65, 0x57,
+	0x68, 0x69, 0x74, 0x65, 0x4c, 0x69, 0x73, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a,
+	0x2c, 0x2e, 0x62, 0x72, 0x75, 0x74, 0x65, 0x66, 0x6f, 0x72, 0x63, 0x65, 0x70, 0x72, 0x6f, 0x74,
+	0x65, 0x63, 0x74, 0x6f, 0x72, 0x2e, 0x52, 0x65, 0x6d, 0x6f, 0x76, 0x65, 0x57, 0x68, 0x69, 0x74,
+	0x65, 0x4c, 0x69, 0x73, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x42,
+	0x11, 0x5a, 0x0f, 0x61, 0x70, 0x69, 0x3b, 0x70, 0x72, 0x6f, 0x74, 0x65, 0x63, 0x74, 0x6f, 0x72,
+	0x70, 0x62, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -223,21 +803,45 @@ func file_api_api_proto_rawDescGZIP() []byte {
 	return file_api_api_proto_rawDescData
 }
 
-var file_api_api_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
+var file_api_api_proto_msgTypes = make([]protoimpl.MessageInfo, 15)
 var file_api_api_proto_goTypes = []interface{}{
-	(*VerifyParams)(nil),   // 0: bruteforceprotector.VerifyParams
-	(*VerifyRequest)(nil),  // 1: bruteforceprotector.VerifyRequest
-	(*VerifyResponse)(nil), // 2: bruteforceprotector.VerifyResponse
+	(*VerifyParams)(nil),            // 0: bruteforceprotector.VerifyParams
+	(*VerifyRequest)(nil),           // 1: bruteforceprotector.VerifyRequest
+	(*VerifyResponse)(nil),          // 2: bruteforceprotector.VerifyResponse
+	(*ResetLoginLimitRequest)(nil),  // 3: bruteforceprotector.ResetLoginLimitRequest
+	(*ResetLoginLimitResponse)(nil), // 4: bruteforceprotector.ResetLoginLimitResponse
+	(*ResetIPLimitRequest)(nil),     // 5: bruteforceprotector.ResetIPLimitRequest
+	(*ResetIPLimitResponse)(nil),    // 6: bruteforceprotector.ResetIPLimitResponse
+	(*AddBlackListRequest)(nil),     // 7: bruteforceprotector.AddBlackListRequest
+	(*AddBlackListResponse)(nil),    // 8: bruteforceprotector.AddBlackListResponse
+	(*RemoveBlackListRequest)(nil),  // 9: bruteforceprotector.RemoveBlackListRequest
+	(*RemoveBlackListResponse)(nil), // 10: bruteforceprotector.RemoveBlackListResponse
+	(*AddWhiteListRequest)(nil),     // 11: bruteforceprotector.AddWhiteListRequest
+	(*AddWhiteListResponse)(nil),    // 12: bruteforceprotector.AddWhiteListResponse
+	(*RemoveWhiteListRequest)(nil),  // 13: bruteforceprotector.RemoveWhiteListRequest
+	(*RemoveWhiteListResponse)(nil), // 14: bruteforceprotector.RemoveWhiteListResponse
 }
 var file_api_api_proto_depIdxs = []int32{
-	0, // 0: bruteforceprotector.VerifyRequest.verifyParams:type_name -> bruteforceprotector.VerifyParams
-	1, // 1: bruteforceprotector.BruteforceProtectorService.Verify:input_type -> bruteforceprotector.VerifyRequest
-	2, // 2: bruteforceprotector.BruteforceProtectorService.Verify:output_type -> bruteforceprotector.VerifyResponse
-	2, // [2:3] is the sub-list for method output_type
-	1, // [1:2] is the sub-list for method input_type
-	1, // [1:1] is the sub-list for extension type_name
-	1, // [1:1] is the sub-list for extension extendee
-	0, // [0:1] is the sub-list for field type_name
+	0,  // 0: bruteforceprotector.VerifyRequest.verifyParams:type_name -> bruteforceprotector.VerifyParams
+	1,  // 1: bruteforceprotector.BruteforceProtectorService.Verify:input_type -> bruteforceprotector.VerifyRequest
+	3,  // 2: bruteforceprotector.BruteforceProtectorService.ResetLogin:input_type -> bruteforceprotector.ResetLoginLimitRequest
+	5,  // 3: bruteforceprotector.BruteforceProtectorService.ResetIP:input_type -> bruteforceprotector.ResetIPLimitRequest
+	7,  // 4: bruteforceprotector.BruteforceProtectorService.AddBlackList:input_type -> bruteforceprotector.AddBlackListRequest
+	9,  // 5: bruteforceprotector.BruteforceProtectorService.RemoveBlackList:input_type -> bruteforceprotector.RemoveBlackListRequest
+	11, // 6: bruteforceprotector.BruteforceProtectorService.AddWhiteList:input_type -> bruteforceprotector.AddWhiteListRequest
+	13, // 7: bruteforceprotector.BruteforceProtectorService.RemoveWhiteList:input_type -> bruteforceprotector.RemoveWhiteListRequest
+	2,  // 8: bruteforceprotector.BruteforceProtectorService.Verify:output_type -> bruteforceprotector.VerifyResponse
+	4,  // 9: bruteforceprotector.BruteforceProtectorService.ResetLogin:output_type -> bruteforceprotector.ResetLoginLimitResponse
+	6,  // 10: bruteforceprotector.BruteforceProtectorService.ResetIP:output_type -> bruteforceprotector.ResetIPLimitResponse
+	8,  // 11: bruteforceprotector.BruteforceProtectorService.AddBlackList:output_type -> bruteforceprotector.AddBlackListResponse
+	10, // 12: bruteforceprotector.BruteforceProtectorService.RemoveBlackList:output_type -> bruteforceprotector.RemoveBlackListResponse
+	12, // 13: bruteforceprotector.BruteforceProtectorService.AddWhiteList:output_type -> bruteforceprotector.AddWhiteListResponse
+	14, // 14: bruteforceprotector.BruteforceProtectorService.RemoveWhiteList:output_type -> bruteforceprotector.RemoveWhiteListResponse
+	8,  // [8:15] is the sub-list for method output_type
+	1,  // [1:8] is the sub-list for method input_type
+	1,  // [1:1] is the sub-list for extension type_name
+	1,  // [1:1] is the sub-list for extension extendee
+	0,  // [0:1] is the sub-list for field type_name
 }
 
 func init() { file_api_api_proto_init() }
@@ -282,6 +886,150 @@ func file_api_api_proto_init() {
 				return nil
 			}
 		}
+		file_api_api_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ResetLoginLimitRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_api_api_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ResetLoginLimitResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_api_api_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ResetIPLimitRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_api_api_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ResetIPLimitResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_api_api_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*AddBlackListRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_api_api_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*AddBlackListResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_api_api_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*RemoveBlackListRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_api_api_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*RemoveBlackListResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_api_api_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*AddWhiteListRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_api_api_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*AddWhiteListResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_api_api_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*RemoveWhiteListRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_api_api_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*RemoveWhiteListResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -289,7 +1037,7 @@ func file_api_api_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_api_api_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   3,
+			NumMessages:   15,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
