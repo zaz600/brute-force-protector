@@ -1,6 +1,7 @@
 package bruteforceprotector
 
 import (
+	"context"
 	"time"
 
 	"github.com/zaz600/brute-force-protector/internal/accesslist"
@@ -25,20 +26,50 @@ type BruteForceProtector struct {
 	ipLimiter       ratelimiter.RateLimiter
 }
 
-func NewBruteForceProtector(n, m, k int64) *BruteForceProtector {
-	return &BruteForceProtector{
-		blackList: memoryaccesslist.NewMemoryAccessList(),
-		whiteList: memoryaccesslist.NewMemoryAccessList(),
+type ProtectorOption func(*BruteForceProtector)
 
-		loginLimiter:    slidingwindowlimiter.NewSlidingWindowRateLimiter(time.Minute, n),
-		passwordLimiter: slidingwindowlimiter.NewSlidingWindowRateLimiter(time.Minute, m),
-		ipLimiter:       slidingwindowlimiter.NewSlidingWindowRateLimiter(time.Minute, k),
+func WithLoginLimit(maxCount int64) ProtectorOption {
+	return func(p *BruteForceProtector) {
+		p.loginLimiter = slidingwindowlimiter.NewSlidingWindowRateLimiter(time.Minute, maxCount)
 	}
 }
 
-func (b *BruteForceProtector) Verify(login string, password string, ip string) bool {
-	// TODO что делать если ip в обоих листах?
+func WithPasswordLimit(maxCount int64) ProtectorOption {
+	return func(p *BruteForceProtector) {
+		p.passwordLimiter = slidingwindowlimiter.NewSlidingWindowRateLimiter(time.Minute, maxCount)
+	}
+}
 
+func WithIPdLimit(maxCount int64) ProtectorOption {
+	return func(p *BruteForceProtector) {
+		p.ipLimiter = slidingwindowlimiter.NewSlidingWindowRateLimiter(time.Minute, maxCount)
+	}
+}
+
+func NewBruteForceProtector(opts ...ProtectorOption) *BruteForceProtector {
+	// TODO 0 - no limit
+	const (
+		defaultMaxLoginAttempts    = 10
+		defaultMaxPasswordAttempts = 100
+		defaultMaxIPAttempts       = 100
+	)
+
+	p := &BruteForceProtector{
+		blackList: memoryaccesslist.NewMemoryAccessList(),
+		whiteList: memoryaccesslist.NewMemoryAccessList(),
+
+		loginLimiter:    slidingwindowlimiter.NewSlidingWindowRateLimiter(time.Minute, defaultMaxLoginAttempts),
+		passwordLimiter: slidingwindowlimiter.NewSlidingWindowRateLimiter(time.Minute, defaultMaxPasswordAttempts),
+		ipLimiter:       slidingwindowlimiter.NewSlidingWindowRateLimiter(time.Minute, defaultMaxIPAttempts),
+	}
+
+	for _, option := range opts {
+		option(p)
+	}
+	return p
+}
+
+func (b *BruteForceProtector) Verify(ctx context.Context, login string, password string, ip string) bool {
 	if inList := b.blackList.IsInList(ip); inList {
 		return false
 	}

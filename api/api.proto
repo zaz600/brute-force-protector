@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package bruteforceprotector;
+
+option go_package = "api;protectorpb";
+
+message VerifyParams {
+  string login = 1;
+  string password = 2;
+  string ip = 3;
+}
+
+message VerifyRequest {
+  VerifyParams verifyParams = 1;
+}
+
+message VerifyResponse {
+  bool ok = 1;
+}
+
+service BruteforceProtectorService{
+  rpc Verify(VerifyRequest) returns(VerifyResponse) {};
+}
