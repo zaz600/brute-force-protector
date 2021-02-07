@@ -4,7 +4,9 @@ import (
 	"time"
 
 	"github.com/zaz600/brute-force-protector/internal/accesslist"
+	"github.com/zaz600/brute-force-protector/internal/accesslist/memoryaccesslist"
 	"github.com/zaz600/brute-force-protector/internal/ratelimiter"
+	"github.com/zaz600/brute-force-protector/internal/ratelimiter/slidingwindowlimiter"
 )
 
 type BruteForceProtector struct {
@@ -25,12 +27,12 @@ type BruteForceProtector struct {
 
 func NewBruteForceProtector(n, m, k int64) *BruteForceProtector {
 	return &BruteForceProtector{
-		blackList: accesslist.NewMemoryAccessList(),
-		whiteList: accesslist.NewMemoryAccessList(),
+		blackList: memoryaccesslist.NewMemoryAccessList(),
+		whiteList: memoryaccesslist.NewMemoryAccessList(),
 
-		loginLimiter:    ratelimiter.NewSlidingWindowRateLimiter(time.Minute, n),
-		passwordLimiter: ratelimiter.NewSlidingWindowRateLimiter(time.Minute, m),
-		ipLimiter:       ratelimiter.NewSlidingWindowRateLimiter(time.Minute, k),
+		loginLimiter:    slidingwindowlimiter.NewSlidingWindowRateLimiter(time.Minute, n),
+		passwordLimiter: slidingwindowlimiter.NewSlidingWindowRateLimiter(time.Minute, m),
+		ipLimiter:       slidingwindowlimiter.NewSlidingWindowRateLimiter(time.Minute, k),
 	}
 }
 

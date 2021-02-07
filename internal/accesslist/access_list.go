@@ -1,16 +1,5 @@
 package accesslist
 
-import (
-	"fmt"
-	"net"
-	"sync"
-)
-
-type accessListValue struct {
-	IP    net.IP
-	IPNet *net.IPNet
-}
-
 type AccessList interface {
 	Add(networkCIDR string) error
 	Remove(networkCIDR string)
@@ -18,83 +7,4 @@ type AccessList interface {
 	IsInList(ip string) bool
 	Len() int
 	Clear()
-}
-
-type MemoryAccessList struct {
-	*sync.RWMutex
-	db map[string]accessListValue
-}
-
-func (m *MemoryAccessList) Add(networkCIDR string) error {
-	m.Lock()
-	defer m.Unlock()
-
-	if _, ok := m.db[networkCIDR]; ok {
-		return nil
-	}
-
-	ipv4Addr, ipv4Net, err := net.ParseCIDR(networkCIDR)
-	if err != nil {
-		return fmt.Errorf("can't add value to list: %w", err)
-	}
-
-	m.db[networkCIDR] = accessListValue{
-		IP:    ipv4Addr,
-		IPNet: ipv4Net,
-	}
-	return nil
-}
-
-func (m *MemoryAccessList) Remove(networkCIDR string) {
-	m.Lock()
-	defer m.Unlock()
-	delete(m.db, networkCIDR)
-}
-
-func (m *MemoryAccessList) Len() int {
-	m.RLock()
-	defer m.RUnlock()
-	return len(m.db)
-}
-
-func (m *MemoryAccessList) Clear() {
-	m.Lock()
-	defer m.Unlock()
-	m.db = make(map[string]accessListValue)
-}
-
-func (m *MemoryAccessList) Exists(networkCIDR string) bool {
-	m.RLock()
-	defer m.RUnlock()
-	if _, ok := m.db[networkCIDR]; ok {
-		return true
-	}
-	return false
-}
-
-func (m *MemoryAccessList) IsInList(ip string) bool {
-	m.RLock()
-	defer m.RUnlock()
-
-	parsedIP := net.ParseIP(ip)
-	if parsedIP == nil {
-		return false
-	}
-
-	found := false
-	for _, val := range m.db {
-		if ok := val.IPNet.Contains(parsedIP); ok {
-			found = true
-			break
-		}
-	}
-
-	return found
-}
-
-func NewMemoryAccessList() AccessList {
-	return &MemoryAccessList{
-		RWMutex: &sync.RWMutex{},
-		db:      make(map[string]accessListValue),
-	}
 }

@@ -15,11 +15,5 @@ func main() {
 		result := bfProtector.Verify("foo", "password", "127.0.0.1")
 		log.Println(i, result)
 		time.Sleep(time.Duration(rand.Intn(5000-100+1)+100) * time.Millisecond)
-		//if result {
-		//	time.Sleep(1 * time.Second)
-		//} else {
-		//	time.Sleep(1 * time.Second)
-		//	//time.Sleep(100 * time.Millisecond)
-		//}
 	}
 }

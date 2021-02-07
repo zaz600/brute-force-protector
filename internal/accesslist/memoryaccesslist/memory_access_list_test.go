@@ -1,16 +1,18 @@
-package accesslist_test
+package memoryaccesslist_test
 
 import (
-	"github.com/stretchr/testify/require"
-	accesslist2 "github.com/zaz600/brute-force-protector/internal/accesslist"
 	"testing"
+
+	"github.com/stretchr/testify/require"
+	"github.com/zaz600/brute-force-protector/internal/accesslist"
+	"github.com/zaz600/brute-force-protector/internal/accesslist/memoryaccesslist"
 )
 
 const defaultCIDR = "192.168.1.1/24"
 
-func memoryAccessListWithData(t *testing.T) accesslist2.AccessList {
+func memoryAccessListWithData(t *testing.T) accesslist.AccessList {
 	t.Helper()
-	list := accesslist2.NewMemoryAccessList()
+	list := memoryaccesslist.NewMemoryAccessList()
 	err := list.Add(defaultCIDR)
 	require.NoError(t, err)
 	return list
