@@ -40,7 +40,7 @@ func WithPasswordLimit(maxCount int64) ProtectorOption {
 	}
 }
 
-func WithIPdLimit(maxCount int64) ProtectorOption {
+func WithIPLimit(maxCount int64) ProtectorOption {
 	return func(p *BruteForceProtector) {
 		p.ipLimiter = slidingwindowlimiter.NewSlidingWindowRateLimiter(time.Minute, maxCount)
 	}

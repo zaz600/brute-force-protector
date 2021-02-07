@@ -20,7 +20,7 @@ func main() {
 	protector := bruteforceprotector.NewBruteForceProtector(
 		bruteforceprotector.WithLoginLimit(10),
 		bruteforceprotector.WithPasswordLimit(100),
-		bruteforceprotector.WithIPdLimit(1000),
+		bruteforceprotector.WithIPLimit(1000),
 	)
 
 	srv := handler.NewServer(protector)
