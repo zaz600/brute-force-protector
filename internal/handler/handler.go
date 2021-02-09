@@ -64,6 +64,14 @@ func (s *Server) RemoveWhiteList(ctx context.Context, req *protectorpb.RemoveWhi
 	return &protectorpb.RemoveWhiteListResponse{}, nil
 }
 
+func (s *Server) GetBlackListItems(ctx context.Context, req *protectorpb.GetBlackListItemsRequest) (*protectorpb.GetBlackListItemsResponse, error) {
+	return &protectorpb.GetBlackListItemsResponse{Items: s.protector.BlackListItems(ctx)}, nil
+}
+
+func (s *Server) GetWhiteListItems(ctx context.Context, req *protectorpb.GetWhiteListItemsRequest) (*protectorpb.GetWhiteListItemsResponse, error) {
+	return &protectorpb.GetWhiteListItemsResponse{Items: s.protector.WhiteListItems(ctx)}, nil
+}
+
 func NewServer(protector *bruteforceprotector.BruteForceProtector) *Server {
 	return &Server{
 		protector: protector,

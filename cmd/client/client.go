@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log"
 
 	"google.golang.org/grpc"
@@ -18,6 +19,9 @@ func main() {
 
 	c := protectorpb.NewBruteforceProtectorServiceClient(conn)
 	_, _ = c.AddBlackList(context.TODO(), &protectorpb.AddBlackListRequest{NetworkCIDR: "127.0.0.1/24"})
+	_, _ = c.AddBlackList(context.TODO(), &protectorpb.AddBlackListRequest{NetworkCIDR: "127.0.0.2/24"})
+	values, _ := c.GetBlackListItems(context.TODO(), &protectorpb.GetBlackListItemsRequest{})
+	fmt.Printf("%#v\n", values.GetItems())
 	_, _ = c.RemoveBlackList(context.TODO(), &protectorpb.RemoveBlackListRequest{NetworkCIDR: "127.0.0.1/24"})
 
 	resp, err := c.Verify(context.Background(), &protectorpb.VerifyRequest{VerifyParams: &protectorpb.VerifyParams{
