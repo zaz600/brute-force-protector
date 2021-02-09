@@ -7,4 +7,5 @@ type AccessList interface {
 	IsInList(ip string) bool
 	Len() int
 	Clear()
+	GetAll() []string
 }

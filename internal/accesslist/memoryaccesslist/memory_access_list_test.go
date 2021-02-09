@@ -66,6 +66,34 @@ func TestMemoryAccessList_Add(t *testing.T) {
 	}
 }
 
+func TestMemoryAccessList_GetAll(t *testing.T) {
+	type test struct {
+		name string
+		cidr string
+	}
+
+	for _, tst := range [...]test{
+		{
+			name: "valid CIDR",
+			cidr: "192.0.2.1/24",
+		},
+		{
+			name: "valid CIDR small range",
+			cidr: "192.168.0.1/28",
+		},
+	} {
+		t.Run(tst.name, func(t *testing.T) {
+			list := memoryAccessListWithData(t)
+			err := list.Add(tst.cidr)
+			require.NoError(t, err)
+			require.Equal(t, list.Len(), 2)
+
+			actual := list.GetAll()
+			require.Equal(t, len(actual), 2)
+		})
+	}
+}
+
 func TestMemoryAccessList_IsInList(t *testing.T) {
 	type test struct {
 		name   string
@@ -89,7 +117,7 @@ func TestMemoryAccessList_IsInList(t *testing.T) {
 		},
 		{
 			name:   "ip in the small list",
-			cidr:   "192.168.0.1/28", //192.168.0.1 - 192.168.0.14, Broadcast: 192.168.0.15
+			cidr:   "192.168.0.1/28", // 192.168.0.1 - 192.168.0.14, Broadcast: 192.168.0.15
 			ip:     "192.168.0.15",
 			inList: true,
 		},
@@ -101,7 +129,7 @@ func TestMemoryAccessList_IsInList(t *testing.T) {
 		},
 		{
 			name:   "ip in the small list",
-			cidr:   "192.168.0.1/28", //192.168.0.1 - 192.168.0.14, Broadcast: 192.168.0.15
+			cidr:   "192.168.0.1/28", // 192.168.0.1 - 192.168.0.14, Broadcast: 192.168.0.15
 			ip:     "192.168.0.16",
 			inList: false,
 		},

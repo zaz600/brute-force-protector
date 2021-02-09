@@ -85,6 +85,16 @@ func (m *MemoryAccessList) IsInList(ip string) bool {
 	return found
 }
 
+func (m *MemoryAccessList) GetAll() []string {
+	m.RLock()
+	defer m.RUnlock()
+	result := make([]string, 0, len(m.db))
+	for k := range m.db {
+		result = append(result, k)
+	}
+	return result
+}
+
 func NewMemoryAccessList() accesslist.AccessList {
 	return &MemoryAccessList{
 		RWMutex: &sync.RWMutex{},
