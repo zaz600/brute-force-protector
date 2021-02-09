@@ -29,11 +29,4 @@ func main() {
 	if err := grpcServer.Serve(listener); err != nil {
 		log.Fatal(err)
 	}
-
-	// rand.Seed(time.Now().UnixNano())
-	// for i := 0; i < 90000; i++ {
-	// 	result := bfProtector.Verify("foo", "password", "127.0.0.1")
-	// 	log.Println(i, result)
-	// 	time.Sleep(time.Duration(rand.Intn(5000-100+1)+100) * time.Millisecond)
-	// }
 }
