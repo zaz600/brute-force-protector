@@ -26,26 +26,6 @@ type BruteForceProtector struct {
 	ipLimiter       ratelimiter.RateLimiter
 }
 
-type ProtectorOption func(*BruteForceProtector)
-
-func WithLoginLimit(maxCount int64) ProtectorOption {
-	return func(p *BruteForceProtector) {
-		p.loginLimiter = slidingwindowlimiter.NewSlidingWindowRateLimiter(time.Minute, maxCount)
-	}
-}
-
-func WithPasswordLimit(maxCount int64) ProtectorOption {
-	return func(p *BruteForceProtector) {
-		p.passwordLimiter = slidingwindowlimiter.NewSlidingWindowRateLimiter(time.Minute, maxCount)
-	}
-}
-
-func WithIPLimit(maxCount int64) ProtectorOption {
-	return func(p *BruteForceProtector) {
-		p.ipLimiter = slidingwindowlimiter.NewSlidingWindowRateLimiter(time.Minute, maxCount)
-	}
-}
-
 func NewBruteForceProtector(opts ...ProtectorOption) *BruteForceProtector {
 	// TODO 0 - no limit
 	const (
@@ -121,10 +101,18 @@ func (b *BruteForceProtector) RemoveBlackList(ctx context.Context, networkCIDR s
 	b.blackList.Remove(networkCIDR)
 }
 
+func (b *BruteForceProtector) BlackListItems(ctx context.Context) []string {
+	return b.blackList.GetAll()
+}
+
 func (b *BruteForceProtector) AddWhiteList(ctx context.Context, networkCIDR string) error {
 	return b.whiteList.Add(networkCIDR)
 }
 
 func (b *BruteForceProtector) RemoveWhiteList(ctx context.Context, networkCIDR string) {
 	b.whiteList.Remove(networkCIDR)
+}
+
+func (b *BruteForceProtector) WhiteListItems(ctx context.Context) []string {
+	return b.whiteList.GetAll()
 }
