@@ -54,13 +54,13 @@ func (s *Server) RemoveBlackList(ctx context.Context, req *protectorpb.RemoveBla
 func (s *Server) AddWhiteList(ctx context.Context, req *protectorpb.AddWhiteListRequest) (*protectorpb.AddWhiteListResponse, error) {
 	// TODO логировать ошибку или вернуть ее в ответ
 	log.Printf("AddWhiteList with params: %v\n", req)
-	_ = s.protector.AddBlackList(ctx, req.NetworkCIDR)
+	_ = s.protector.AddWhiteList(ctx, req.NetworkCIDR)
 	return &protectorpb.AddWhiteListResponse{}, nil
 }
 
 func (s *Server) RemoveWhiteList(ctx context.Context, req *protectorpb.RemoveWhiteListRequest) (*protectorpb.RemoveWhiteListResponse, error) {
 	log.Printf("RemoveWhiteList with params: %v\n", req)
-	s.protector.RemoveBlackList(ctx, req.NetworkCIDR)
+	s.protector.RemoveWhiteList(ctx, req.NetworkCIDR)
 	return &protectorpb.RemoveWhiteListResponse{}, nil
 }
 
