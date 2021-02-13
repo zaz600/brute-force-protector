@@ -55,36 +55,8 @@ func createApp() *cli.App {
 				Name:  "reset",
 				Usage: "reset limits",
 				Subcommands: []*cli.Command{
-					{
-						Name:  "login",
-						Usage: "reset login limit",
-						Action: func(c *cli.Context) error {
-							if c.NArg() == 0 {
-								return cli.Exit("missed LOGIN arg", 10)
-							}
-							service := bpService{host: c.String("host")}
-							err := service.resetLoginLimit(c.Args().First())
-							if err != nil {
-								return cli.Exit(err, 9)
-							}
-							return nil
-						},
-					},
-					{
-						Name:  "ip",
-						Usage: "reset ip limit",
-						Action: func(c *cli.Context) error {
-							if c.NArg() == 0 {
-								return cli.Exit("missed IP arg", 10)
-							}
-							service := bpService{host: c.String("host")}
-							err := service.resetIPLimit(c.Args().First())
-							if err != nil {
-								return cli.Exit(err, 9)
-							}
-							return nil
-						},
-					},
+					createResetLoginLimitCommand(),
+					createResetIPLimitCommand(),
 				},
 			},
 		},
@@ -147,6 +119,42 @@ func createShowAccessListItemsCommand(listType ListType) *cli.Command {
 			fmt.Printf("%s items:\n", listType)
 			for _, item := range items {
 				fmt.Printf("- %s\n", item)
+			}
+			return nil
+		},
+	}
+}
+
+func createResetLoginLimitCommand() *cli.Command {
+	return &cli.Command{
+		Name:  "login",
+		Usage: "reset login limit",
+		Action: func(c *cli.Context) error {
+			if c.NArg() == 0 {
+				return cli.Exit("missed LOGIN arg", 10)
+			}
+			service := bpService{host: c.String("host")}
+			err := service.resetLoginLimit(c.Args().First())
+			if err != nil {
+				return cli.Exit(err, 9)
+			}
+			return nil
+		},
+	}
+}
+
+func createResetIPLimitCommand() *cli.Command {
+	return &cli.Command{
+		Name:  "ip",
+		Usage: "reset ip limit",
+		Action: func(c *cli.Context) error {
+			if c.NArg() == 0 {
+				return cli.Exit("missed IP arg", 10)
+			}
+			service := bpService{host: c.String("host")}
+			err := service.resetIPLimit(c.Args().First())
+			if err != nil {
+				return cli.Exit(err, 9)
 			}
 			return nil
 		},
