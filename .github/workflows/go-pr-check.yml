@@ -27,9 +27,13 @@ jobs:
               dep ensure
           fi
 
-      - name: Build
+      - name: Build server
         working-directory: ${{ github.head_ref }}
-        run: go build -v ./...
+        run: go build -v ./cmd/server/...
+
+      - name: Build cli
+        working-directory: ${{ github.head_ref }}
+        run: go build -v ./cmd/bp-cli/...
 
       - name: Unit tests
         working-directory: ${{ github.head_ref }}
