@@ -39,46 +39,51 @@ func (s *Server) ResetIP(ctx context.Context, req *protectorpb.ResetIPLimitReque
 	return &protectorpb.ResetIPLimitResponse{}, nil
 }
 
-func (s *Server) AddBlackList(ctx context.Context, req *protectorpb.AddBlackListRequest) (*protectorpb.AddBlackListResponse, error) {
-	log.Printf("AddBlackList with params: %v\n", req)
-	resp := &protectorpb.AddBlackListResponse{Result: true}
-	err := s.protector.AddBlackList(ctx, req.NetworkCIDR)
-	if err != nil {
-		resp.Result = false
-		resp.Error = fmt.Sprintf("error add item to black list: %s", err)
+func (s *Server) AddAccessListItem(ctx context.Context, req *protectorpb.AddAccessListRequest) (*protectorpb.AddAccessListResponse, error) {
+	resp := &protectorpb.AddAccessListResponse{Result: true}
+	switch req.ListType {
+	case protectorpb.AccessListType_BLACK:
+		log.Printf("AddBlackList with params: %v\n", req)
+		err := s.protector.AddBlackList(ctx, req.NetworkCIDR)
+		if err != nil {
+			resp.Result = false
+			resp.Error = fmt.Sprintf("error add item to black list: %s", err)
+		}
+		return resp, nil
+	case protectorpb.AccessListType_WHITE:
+		log.Printf("AddWhiteList with params: %v\n", req)
+		err := s.protector.AddWhiteList(ctx, req.NetworkCIDR)
+		if err != nil {
+			resp.Result = false
+			resp.Error = fmt.Sprintf("error add item to white list: %s", err)
+		}
+		return resp, nil
 	}
-	return resp, nil
+	return nil, fmt.Errorf("unkonown access list type")
 }
 
-func (s *Server) RemoveBlackList(ctx context.Context, req *protectorpb.RemoveBlackListRequest) (*protectorpb.RemoveBlackListResponse, error) {
-	log.Printf("RemoveBlackList with params: %v\n", req)
-	s.protector.RemoveBlackList(ctx, req.NetworkCIDR)
-	return &protectorpb.RemoveBlackListResponse{}, nil
-}
-
-func (s *Server) AddWhiteList(ctx context.Context, req *protectorpb.AddWhiteListRequest) (*protectorpb.AddWhiteListResponse, error) {
-	log.Printf("AddWhiteList with params: %v\n", req)
-	resp := &protectorpb.AddWhiteListResponse{Result: true}
-	err := s.protector.AddWhiteList(ctx, req.NetworkCIDR)
-	if err != nil {
-		resp.Result = false
-		resp.Error = fmt.Sprintf("error add item to white list: %s", err)
+func (s *Server) RemoveAccessList(ctx context.Context, req *protectorpb.RemoveAccessListRequest) (*protectorpb.RemoveAccessListResponse, error) {
+	switch req.ListType {
+	case protectorpb.AccessListType_BLACK:
+		log.Printf("RemoveBlackList with params: %v\n", req)
+		s.protector.RemoveBlackList(ctx, req.NetworkCIDR)
+	case protectorpb.AccessListType_WHITE:
+		log.Printf("RemoveWhiteList with params: %v\n", req)
+		s.protector.RemoveWhiteList(ctx, req.NetworkCIDR)
+	default:
+		return nil, fmt.Errorf("unkonown access list type")
 	}
-	return resp, nil
+	return &protectorpb.RemoveAccessListResponse{}, nil
 }
 
-func (s *Server) RemoveWhiteList(ctx context.Context, req *protectorpb.RemoveWhiteListRequest) (*protectorpb.RemoveWhiteListResponse, error) {
-	log.Printf("RemoveWhiteList with params: %v\n", req)
-	s.protector.RemoveWhiteList(ctx, req.NetworkCIDR)
-	return &protectorpb.RemoveWhiteListResponse{}, nil
-}
-
-func (s *Server) GetBlackListItems(ctx context.Context, req *protectorpb.GetBlackListItemsRequest) (*protectorpb.GetBlackListItemsResponse, error) {
-	return &protectorpb.GetBlackListItemsResponse{Items: s.protector.BlackListItems(ctx)}, nil
-}
-
-func (s *Server) GetWhiteListItems(ctx context.Context, req *protectorpb.GetWhiteListItemsRequest) (*protectorpb.GetWhiteListItemsResponse, error) {
-	return &protectorpb.GetWhiteListItemsResponse{Items: s.protector.WhiteListItems(ctx)}, nil
+func (s *Server) GetAccessListItems(ctx context.Context, req *protectorpb.GetAccessListItemsRequest) (*protectorpb.GetAccessListItemsResponse, error) {
+	switch req.ListType {
+	case protectorpb.AccessListType_BLACK:
+		return &protectorpb.GetAccessListItemsResponse{Items: s.protector.BlackListItems(ctx)}, nil
+	case protectorpb.AccessListType_WHITE:
+		return &protectorpb.GetAccessListItemsResponse{Items: s.protector.WhiteListItems(ctx)}, nil
+	}
+	return nil, fmt.Errorf("unkonown access list type")
 }
 
 func NewServer(protector *bruteforceprotector.BruteForceProtector) *Server {

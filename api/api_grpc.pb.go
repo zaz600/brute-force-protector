@@ -21,12 +21,9 @@ type BruteforceProtectorServiceClient interface {
 	Verify(ctx context.Context, in *VerifyRequest, opts ...grpc.CallOption) (*VerifyResponse, error)
 	ResetLogin(ctx context.Context, in *ResetLoginLimitRequest, opts ...grpc.CallOption) (*ResetLoginLimitResponse, error)
 	ResetIP(ctx context.Context, in *ResetIPLimitRequest, opts ...grpc.CallOption) (*ResetIPLimitResponse, error)
-	AddBlackList(ctx context.Context, in *AddBlackListRequest, opts ...grpc.CallOption) (*AddBlackListResponse, error)
-	RemoveBlackList(ctx context.Context, in *RemoveBlackListRequest, opts ...grpc.CallOption) (*RemoveBlackListResponse, error)
-	GetBlackListItems(ctx context.Context, in *GetBlackListItemsRequest, opts ...grpc.CallOption) (*GetBlackListItemsResponse, error)
-	AddWhiteList(ctx context.Context, in *AddWhiteListRequest, opts ...grpc.CallOption) (*AddWhiteListResponse, error)
-	RemoveWhiteList(ctx context.Context, in *RemoveWhiteListRequest, opts ...grpc.CallOption) (*RemoveWhiteListResponse, error)
-	GetWhiteListItems(ctx context.Context, in *GetWhiteListItemsRequest, opts ...grpc.CallOption) (*GetWhiteListItemsResponse, error)
+	AddAccessListItem(ctx context.Context, in *AddAccessListRequest, opts ...grpc.CallOption) (*AddAccessListResponse, error)
+	RemoveAccessListItem(ctx context.Context, in *RemoveAccessListRequest, opts ...grpc.CallOption) (*RemoveAccessListResponse, error)
+	GetAccessListItems(ctx context.Context, in *GetAccessListItemsRequest, opts ...grpc.CallOption) (*GetAccessListItemsResponse, error)
 }
 
 type bruteforceProtectorServiceClient struct {
@@ -64,54 +61,27 @@ func (c *bruteforceProtectorServiceClient) ResetIP(ctx context.Context, in *Rese
 	return out, nil
 }
 
-func (c *bruteforceProtectorServiceClient) AddBlackList(ctx context.Context, in *AddBlackListRequest, opts ...grpc.CallOption) (*AddBlackListResponse, error) {
-	out := new(AddBlackListResponse)
-	err := c.cc.Invoke(ctx, "/bruteforceprotector.BruteforceProtectorService/AddBlackList", in, out, opts...)
+func (c *bruteforceProtectorServiceClient) AddAccessListItem(ctx context.Context, in *AddAccessListRequest, opts ...grpc.CallOption) (*AddAccessListResponse, error) {
+	out := new(AddAccessListResponse)
+	err := c.cc.Invoke(ctx, "/bruteforceprotector.BruteforceProtectorService/AddAccessListItem", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *bruteforceProtectorServiceClient) RemoveBlackList(ctx context.Context, in *RemoveBlackListRequest, opts ...grpc.CallOption) (*RemoveBlackListResponse, error) {
-	out := new(RemoveBlackListResponse)
-	err := c.cc.Invoke(ctx, "/bruteforceprotector.BruteforceProtectorService/RemoveBlackList", in, out, opts...)
+func (c *bruteforceProtectorServiceClient) RemoveAccessListItem(ctx context.Context, in *RemoveAccessListRequest, opts ...grpc.CallOption) (*RemoveAccessListResponse, error) {
+	out := new(RemoveAccessListResponse)
+	err := c.cc.Invoke(ctx, "/bruteforceprotector.BruteforceProtectorService/RemoveAccessListItem", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *bruteforceProtectorServiceClient) GetBlackListItems(ctx context.Context, in *GetBlackListItemsRequest, opts ...grpc.CallOption) (*GetBlackListItemsResponse, error) {
-	out := new(GetBlackListItemsResponse)
-	err := c.cc.Invoke(ctx, "/bruteforceprotector.BruteforceProtectorService/GetBlackListItems", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *bruteforceProtectorServiceClient) AddWhiteList(ctx context.Context, in *AddWhiteListRequest, opts ...grpc.CallOption) (*AddWhiteListResponse, error) {
-	out := new(AddWhiteListResponse)
-	err := c.cc.Invoke(ctx, "/bruteforceprotector.BruteforceProtectorService/AddWhiteList", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *bruteforceProtectorServiceClient) RemoveWhiteList(ctx context.Context, in *RemoveWhiteListRequest, opts ...grpc.CallOption) (*RemoveWhiteListResponse, error) {
-	out := new(RemoveWhiteListResponse)
-	err := c.cc.Invoke(ctx, "/bruteforceprotector.BruteforceProtectorService/RemoveWhiteList", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *bruteforceProtectorServiceClient) GetWhiteListItems(ctx context.Context, in *GetWhiteListItemsRequest, opts ...grpc.CallOption) (*GetWhiteListItemsResponse, error) {
-	out := new(GetWhiteListItemsResponse)
-	err := c.cc.Invoke(ctx, "/bruteforceprotector.BruteforceProtectorService/GetWhiteListItems", in, out, opts...)
+func (c *bruteforceProtectorServiceClient) GetAccessListItems(ctx context.Context, in *GetAccessListItemsRequest, opts ...grpc.CallOption) (*GetAccessListItemsResponse, error) {
+	out := new(GetAccessListItemsResponse)
+	err := c.cc.Invoke(ctx, "/bruteforceprotector.BruteforceProtectorService/GetAccessListItems", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -125,12 +95,9 @@ type BruteforceProtectorServiceServer interface {
 	Verify(context.Context, *VerifyRequest) (*VerifyResponse, error)
 	ResetLogin(context.Context, *ResetLoginLimitRequest) (*ResetLoginLimitResponse, error)
 	ResetIP(context.Context, *ResetIPLimitRequest) (*ResetIPLimitResponse, error)
-	AddBlackList(context.Context, *AddBlackListRequest) (*AddBlackListResponse, error)
-	RemoveBlackList(context.Context, *RemoveBlackListRequest) (*RemoveBlackListResponse, error)
-	GetBlackListItems(context.Context, *GetBlackListItemsRequest) (*GetBlackListItemsResponse, error)
-	AddWhiteList(context.Context, *AddWhiteListRequest) (*AddWhiteListResponse, error)
-	RemoveWhiteList(context.Context, *RemoveWhiteListRequest) (*RemoveWhiteListResponse, error)
-	GetWhiteListItems(context.Context, *GetWhiteListItemsRequest) (*GetWhiteListItemsResponse, error)
+	AddAccessListItem(context.Context, *AddAccessListRequest) (*AddAccessListResponse, error)
+	RemoveAccessListItem(context.Context, *RemoveAccessListRequest) (*RemoveAccessListResponse, error)
+	GetAccessListItems(context.Context, *GetAccessListItemsRequest) (*GetAccessListItemsResponse, error)
 	mustEmbedUnimplementedBruteforceProtectorServiceServer()
 }
 
@@ -147,23 +114,14 @@ func (UnimplementedBruteforceProtectorServiceServer) ResetLogin(context.Context,
 func (UnimplementedBruteforceProtectorServiceServer) ResetIP(context.Context, *ResetIPLimitRequest) (*ResetIPLimitResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ResetIP not implemented")
 }
-func (UnimplementedBruteforceProtectorServiceServer) AddBlackList(context.Context, *AddBlackListRequest) (*AddBlackListResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method AddBlackList not implemented")
+func (UnimplementedBruteforceProtectorServiceServer) AddAccessListItem(context.Context, *AddAccessListRequest) (*AddAccessListResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddAccessListItem not implemented")
 }
-func (UnimplementedBruteforceProtectorServiceServer) RemoveBlackList(context.Context, *RemoveBlackListRequest) (*RemoveBlackListResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method RemoveBlackList not implemented")
+func (UnimplementedBruteforceProtectorServiceServer) RemoveAccessListItem(context.Context, *RemoveAccessListRequest) (*RemoveAccessListResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RemoveAccessListItem not implemented")
 }
-func (UnimplementedBruteforceProtectorServiceServer) GetBlackListItems(context.Context, *GetBlackListItemsRequest) (*GetBlackListItemsResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetBlackListItems not implemented")
-}
-func (UnimplementedBruteforceProtectorServiceServer) AddWhiteList(context.Context, *AddWhiteListRequest) (*AddWhiteListResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method AddWhiteList not implemented")
-}
-func (UnimplementedBruteforceProtectorServiceServer) RemoveWhiteList(context.Context, *RemoveWhiteListRequest) (*RemoveWhiteListResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method RemoveWhiteList not implemented")
-}
-func (UnimplementedBruteforceProtectorServiceServer) GetWhiteListItems(context.Context, *GetWhiteListItemsRequest) (*GetWhiteListItemsResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetWhiteListItems not implemented")
+func (UnimplementedBruteforceProtectorServiceServer) GetAccessListItems(context.Context, *GetAccessListItemsRequest) (*GetAccessListItemsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAccessListItems not implemented")
 }
 func (UnimplementedBruteforceProtectorServiceServer) mustEmbedUnimplementedBruteforceProtectorServiceServer() {
 }
@@ -233,110 +191,56 @@ func _BruteforceProtectorService_ResetIP_Handler(srv interface{}, ctx context.Co
 	return interceptor(ctx, in, info, handler)
 }
 
-func _BruteforceProtectorService_AddBlackList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(AddBlackListRequest)
+func _BruteforceProtectorService_AddAccessListItem_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddAccessListRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(BruteforceProtectorServiceServer).AddBlackList(ctx, in)
+		return srv.(BruteforceProtectorServiceServer).AddAccessListItem(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/bruteforceprotector.BruteforceProtectorService/AddBlackList",
+		FullMethod: "/bruteforceprotector.BruteforceProtectorService/AddAccessListItem",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(BruteforceProtectorServiceServer).AddBlackList(ctx, req.(*AddBlackListRequest))
+		return srv.(BruteforceProtectorServiceServer).AddAccessListItem(ctx, req.(*AddAccessListRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _BruteforceProtectorService_RemoveBlackList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(RemoveBlackListRequest)
+func _BruteforceProtectorService_RemoveAccessListItem_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RemoveAccessListRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(BruteforceProtectorServiceServer).RemoveBlackList(ctx, in)
+		return srv.(BruteforceProtectorServiceServer).RemoveAccessListItem(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/bruteforceprotector.BruteforceProtectorService/RemoveBlackList",
+		FullMethod: "/bruteforceprotector.BruteforceProtectorService/RemoveAccessListItem",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(BruteforceProtectorServiceServer).RemoveBlackList(ctx, req.(*RemoveBlackListRequest))
+		return srv.(BruteforceProtectorServiceServer).RemoveAccessListItem(ctx, req.(*RemoveAccessListRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _BruteforceProtectorService_GetBlackListItems_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetBlackListItemsRequest)
+func _BruteforceProtectorService_GetAccessListItems_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAccessListItemsRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(BruteforceProtectorServiceServer).GetBlackListItems(ctx, in)
+		return srv.(BruteforceProtectorServiceServer).GetAccessListItems(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/bruteforceprotector.BruteforceProtectorService/GetBlackListItems",
+		FullMethod: "/bruteforceprotector.BruteforceProtectorService/GetAccessListItems",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(BruteforceProtectorServiceServer).GetBlackListItems(ctx, req.(*GetBlackListItemsRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _BruteforceProtectorService_AddWhiteList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(AddWhiteListRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(BruteforceProtectorServiceServer).AddWhiteList(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/bruteforceprotector.BruteforceProtectorService/AddWhiteList",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(BruteforceProtectorServiceServer).AddWhiteList(ctx, req.(*AddWhiteListRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _BruteforceProtectorService_RemoveWhiteList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(RemoveWhiteListRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(BruteforceProtectorServiceServer).RemoveWhiteList(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/bruteforceprotector.BruteforceProtectorService/RemoveWhiteList",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(BruteforceProtectorServiceServer).RemoveWhiteList(ctx, req.(*RemoveWhiteListRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _BruteforceProtectorService_GetWhiteListItems_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetWhiteListItemsRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(BruteforceProtectorServiceServer).GetWhiteListItems(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/bruteforceprotector.BruteforceProtectorService/GetWhiteListItems",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(BruteforceProtectorServiceServer).GetWhiteListItems(ctx, req.(*GetWhiteListItemsRequest))
+		return srv.(BruteforceProtectorServiceServer).GetAccessListItems(ctx, req.(*GetAccessListItemsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -361,28 +265,16 @@ var BruteforceProtectorService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _BruteforceProtectorService_ResetIP_Handler,
 		},
 		{
-			MethodName: "AddBlackList",
-			Handler:    _BruteforceProtectorService_AddBlackList_Handler,
+			MethodName: "AddAccessListItem",
+			Handler:    _BruteforceProtectorService_AddAccessListItem_Handler,
 		},
 		{
-			MethodName: "RemoveBlackList",
-			Handler:    _BruteforceProtectorService_RemoveBlackList_Handler,
+			MethodName: "RemoveAccessListItem",
+			Handler:    _BruteforceProtectorService_RemoveAccessListItem_Handler,
 		},
 		{
-			MethodName: "GetBlackListItems",
-			Handler:    _BruteforceProtectorService_GetBlackListItems_Handler,
-		},
-		{
-			MethodName: "AddWhiteList",
-			Handler:    _BruteforceProtectorService_AddWhiteList_Handler,
-		},
-		{
-			MethodName: "RemoveWhiteList",
-			Handler:    _BruteforceProtectorService_RemoveWhiteList_Handler,
-		},
-		{
-			MethodName: "GetWhiteListItems",
-			Handler:    _BruteforceProtectorService_GetWhiteListItems_Handler,
+			MethodName: "GetAccessListItems",
+			Handler:    _BruteforceProtectorService_GetAccessListItems_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

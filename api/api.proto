@@ -29,48 +29,40 @@ message ResetIPLimitRequest {
 }
 message ResetIPLimitResponse {}
 
-message AddBlackListRequest {
-  string networkCIDR = 1;
+
+enum AccessListType {
+  BLACK = 0;
+  WHITE = 1;
 }
 
-message AddBlackListResponse {
+message AddAccessListRequest {
+  string networkCIDR = 1;
+  AccessListType listType = 2;
+}
+
+message AddAccessListResponse {
   bool result = 1;
   string error = 2;
 }
 
-message RemoveBlackListRequest {
+message RemoveAccessListRequest {
   string networkCIDR = 1;
+  AccessListType listType = 2;
 }
 
-message RemoveBlackListResponse {}
-
-message GetBlackListItemsRequest {}
-
-message GetBlackListItemsResponse {
-  repeated string items = 1;
-}
-
-message AddWhiteListRequest {
-  string networkCIDR = 1;
-}
-
-message AddWhiteListResponse {
+message RemoveAccessListResponse {
   bool result = 1;
   string error = 2;
 }
 
-message RemoveWhiteListRequest {
+message GetAccessListItemsRequest {
   string networkCIDR = 1;
+  AccessListType listType = 2;
 }
 
-message RemoveWhiteListResponse {}
-
-message GetWhiteListItemsRequest {}
-
-message GetWhiteListItemsResponse {
+message GetAccessListItemsResponse {
   repeated string items = 1;
 }
-
 
 
 service BruteforceProtectorService{
@@ -78,11 +70,7 @@ service BruteforceProtectorService{
   rpc ResetLogin(ResetLoginLimitRequest) returns(ResetLoginLimitResponse) {};
   rpc ResetIP(ResetIPLimitRequest) returns(ResetIPLimitResponse) {};
 
-  rpc AddBlackList(AddBlackListRequest) returns(AddBlackListResponse) {};
-  rpc RemoveBlackList(RemoveBlackListRequest) returns(RemoveBlackListResponse) {};
-  rpc GetBlackListItems(GetBlackListItemsRequest) returns(GetBlackListItemsResponse) {};
-
-  rpc AddWhiteList(AddWhiteListRequest) returns(AddWhiteListResponse) {};
-  rpc RemoveWhiteList(RemoveWhiteListRequest) returns(RemoveWhiteListResponse) {};
-  rpc GetWhiteListItems(GetWhiteListItemsRequest) returns(GetWhiteListItemsResponse) {};
+  rpc AddAccessListItem(AddAccessListRequest) returns(AddAccessListResponse) {};
+  rpc RemoveAccessListItem(RemoveAccessListRequest) returns(RemoveAccessListResponse) {};
+  rpc GetAccessListItems(GetAccessListItemsRequest) returns(GetAccessListItemsResponse) {};
 }
