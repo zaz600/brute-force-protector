@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"fmt"
-	"log"
 	"os"
 
 	"github.com/urfave/cli/v2"
@@ -13,6 +12,19 @@ import (
 )
 
 func main() {
+	os.Exit(CLI(os.Args))
+}
+
+func CLI(args []string) int {
+	app := createApp()
+	if err := app.Run(args); err != nil {
+		fmt.Fprintf(os.Stderr, "Runtime error: %v\n", err)
+		return 10
+	}
+	return 0
+}
+
+func createApp() *cli.App {
 	var host string
 
 	app := &cli.App{
@@ -41,7 +53,7 @@ func main() {
 						}
 
 						service := bpService{host: host}
-						if err := service.addAccessList(c.Args().First(), protectorpb.AccessListType_BLACK); err != nil {
+						if err := service.addAccessList(c.Args().First(), Black); err != nil {
 							return cli.Exit(err, 9)
 						}
 						return nil
@@ -56,7 +68,7 @@ func main() {
 						}
 
 						service := bpService{host: host}
-						if err := service.removeAccessList(c.Args().First(), protectorpb.AccessListType_BLACK); err != nil {
+						if err := service.removeAccessList(c.Args().First(), Black); err != nil {
 							return cli.Exit(err, 9)
 						}
 						return nil
@@ -71,7 +83,7 @@ func main() {
 						}
 
 						service := bpService{host: host}
-						items, err := service.getAccessListItems(protectorpb.AccessListType_BLACK)
+						items, err := service.getAccessListItems(Black)
 						if err != nil {
 							return cli.Exit(err, 9)
 						}
@@ -99,7 +111,7 @@ func main() {
 						}
 
 						service := bpService{host: host}
-						if err := service.addAccessList(c.Args().First(), protectorpb.AccessListType_WHITE); err != nil {
+						if err := service.addAccessList(c.Args().First(), White); err != nil {
 							return cli.Exit(err, 9)
 						}
 						return nil
@@ -114,7 +126,7 @@ func main() {
 						}
 
 						service := bpService{host: host}
-						if err := service.removeAccessList(c.Args().First(), protectorpb.AccessListType_WHITE); err != nil {
+						if err := service.removeAccessList(c.Args().First(), White); err != nil {
 							return cli.Exit(err, 9)
 						}
 						return nil
@@ -129,7 +141,7 @@ func main() {
 						}
 
 						service := bpService{host: host}
-						items, err := service.getAccessListItems(protectorpb.AccessListType_BLACK)
+						items, err := service.getAccessListItems(White)
 						if err != nil {
 							return cli.Exit(err, 9)
 						}
@@ -145,11 +157,7 @@ func main() {
 		},
 		},
 	}
-
-	err := app.Run(os.Args)
-	if err != nil {
-		log.Fatal(err)
-	}
+	return app
 }
 
 type bpClient struct {
@@ -170,19 +178,34 @@ func newBpClient(server string) (*bpClient, error) {
 	}, nil
 }
 
+type ListType int
+
+const (
+	Black ListType = iota
+	White
+)
+
 type bpService struct {
 	host string
 }
 
-func (s bpService) addAccessList(item string, listType protectorpb.AccessListType) error {
+func (s bpService) addAccessList(item string, listType ListType) error {
 	client, err := newBpClient(s.host)
 	if err != nil {
 		return fmt.Errorf("error connect to host %s: %w", s.host, err)
 	}
 	defer client.conn.Close()
 
-	req := &protectorpb.AddAccessListRequest{NetworkCIDR: item, ListType: listType}
-	result, err := client.rpcClient.AddAccessListItem(context.TODO(), req)
+	req := &protectorpb.AddAccessListRequest{NetworkCIDR: item}
+
+	var result *protectorpb.AddAccessListResponse
+	switch listType {
+	case Black:
+		result, err = client.rpcClient.AddBlackListItem(context.TODO(), req)
+	case White:
+		result, err = client.rpcClient.AddWhiteListItem(context.TODO(), req)
+	}
+
 	if err != nil {
 		return fmt.Errorf("error add item to access list: %w", err)
 	}
@@ -192,31 +215,45 @@ func (s bpService) addAccessList(item string, listType protectorpb.AccessListTyp
 	return nil
 }
 
-func (s bpService) removeAccessList(item string, listType protectorpb.AccessListType) error {
+func (s bpService) removeAccessList(item string, listType ListType) error {
 	client, err := newBpClient(s.host)
 	if err != nil {
 		return fmt.Errorf("error connect to host %s: %w", s.host, err)
 	}
 	defer client.conn.Close()
 
-	req := &protectorpb.RemoveAccessListRequest{NetworkCIDR: item, ListType: listType}
-	_, err = client.rpcClient.RemoveAccessListItem(context.TODO(), req)
+	req := &protectorpb.RemoveAccessListRequest{NetworkCIDR: item}
+	switch listType {
+	case Black:
+		_, err = client.rpcClient.RemoveBlackListItem(context.TODO(), req)
+	case White:
+		_, err = client.rpcClient.RemoveWhiteListItem(context.TODO(), req)
+	}
+
 	if err != nil {
 		return fmt.Errorf("error remove item from access list: %w", err)
 	}
 	return nil
 }
 
-func (s bpService) getAccessListItems(listType protectorpb.AccessListType) ([]string, error) {
+func (s bpService) getAccessListItems(listType ListType) ([]string, error) {
 	client, err := newBpClient(s.host)
 	if err != nil {
 		return nil, fmt.Errorf("error connect to host %s: %w", s.host, err)
 	}
 	defer client.conn.Close()
-	req := &protectorpb.GetAccessListItemsRequest{ListType: listType}
-	resp, err := client.rpcClient.GetAccessListItems(context.TODO(), req)
+	req := &protectorpb.GetAccessListItemsRequest{}
+
+	var result *protectorpb.GetAccessListItemsResponse
+	switch listType {
+	case Black:
+		result, err = client.rpcClient.GetBlackListItems(context.TODO(), req)
+	case White:
+		result, err = client.rpcClient.GetWhiteListItems(context.TODO(), req)
+	}
+
 	if err != nil {
 		return nil, fmt.Errorf("error get items from access list: %w", err)
 	}
-	return resp.Items, nil
+	return result.Items, nil
 }

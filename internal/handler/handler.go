@@ -39,51 +39,46 @@ func (s *Server) ResetIP(ctx context.Context, req *protectorpb.ResetIPLimitReque
 	return &protectorpb.ResetIPLimitResponse{}, nil
 }
 
-func (s *Server) AddAccessListItem(ctx context.Context, req *protectorpb.AddAccessListRequest) (*protectorpb.AddAccessListResponse, error) {
+func (s *Server) AddBlackListItem(ctx context.Context, req *protectorpb.AddAccessListRequest) (*protectorpb.AddAccessListResponse, error) {
 	resp := &protectorpb.AddAccessListResponse{Result: true}
-	switch req.ListType {
-	case protectorpb.AccessListType_BLACK:
-		log.Printf("AddBlackList with params: %v\n", req)
-		err := s.protector.AddBlackList(ctx, req.NetworkCIDR)
-		if err != nil {
-			resp.Result = false
-			resp.Error = fmt.Sprintf("error add item to black list: %s", err)
-		}
-		return resp, nil
-	case protectorpb.AccessListType_WHITE:
-		log.Printf("AddWhiteList with params: %v\n", req)
-		err := s.protector.AddWhiteList(ctx, req.NetworkCIDR)
-		if err != nil {
-			resp.Result = false
-			resp.Error = fmt.Sprintf("error add item to white list: %s", err)
-		}
-		return resp, nil
+	log.Printf("AddBlackList with params: %v\n", req)
+	err := s.protector.AddBlackList(ctx, req.NetworkCIDR)
+	if err != nil {
+		resp.Result = false
+		resp.Error = fmt.Sprintf("error add item to black list: %s", err)
 	}
-	return nil, fmt.Errorf("unkonown access list type")
+	return resp, nil
 }
 
-func (s *Server) RemoveAccessList(ctx context.Context, req *protectorpb.RemoveAccessListRequest) (*protectorpb.RemoveAccessListResponse, error) {
-	switch req.ListType {
-	case protectorpb.AccessListType_BLACK:
-		log.Printf("RemoveBlackList with params: %v\n", req)
-		s.protector.RemoveBlackList(ctx, req.NetworkCIDR)
-	case protectorpb.AccessListType_WHITE:
-		log.Printf("RemoveWhiteList with params: %v\n", req)
-		s.protector.RemoveWhiteList(ctx, req.NetworkCIDR)
-	default:
-		return nil, fmt.Errorf("unkonown access list type")
+func (s *Server) AddWhiteListItem(ctx context.Context, req *protectorpb.AddAccessListRequest) (*protectorpb.AddAccessListResponse, error) {
+	resp := &protectorpb.AddAccessListResponse{Result: true}
+	log.Printf("AddWhiteList with params: %v\n", req)
+	err := s.protector.AddWhiteList(ctx, req.NetworkCIDR)
+	if err != nil {
+		resp.Result = false
+		resp.Error = fmt.Sprintf("error add item to white list: %s", err)
 	}
+	return resp, nil
+}
+
+func (s *Server) RemoveBlackList(ctx context.Context, req *protectorpb.RemoveAccessListRequest) (*protectorpb.RemoveAccessListResponse, error) {
+	log.Printf("RemoveBlackList with params: %v\n", req)
+	s.protector.RemoveBlackList(ctx, req.NetworkCIDR)
 	return &protectorpb.RemoveAccessListResponse{}, nil
 }
 
-func (s *Server) GetAccessListItems(ctx context.Context, req *protectorpb.GetAccessListItemsRequest) (*protectorpb.GetAccessListItemsResponse, error) {
-	switch req.ListType {
-	case protectorpb.AccessListType_BLACK:
-		return &protectorpb.GetAccessListItemsResponse{Items: s.protector.BlackListItems(ctx)}, nil
-	case protectorpb.AccessListType_WHITE:
-		return &protectorpb.GetAccessListItemsResponse{Items: s.protector.WhiteListItems(ctx)}, nil
-	}
-	return nil, fmt.Errorf("unkonown access list type")
+func (s *Server) RemoveWhiteList(ctx context.Context, req *protectorpb.RemoveAccessListRequest) (*protectorpb.RemoveAccessListResponse, error) {
+	log.Printf("RemoveWhiteList with params: %v\n", req)
+	s.protector.RemoveWhiteList(ctx, req.NetworkCIDR)
+	return &protectorpb.RemoveAccessListResponse{}, nil
+}
+
+func (s *Server) GetBlackListItems(ctx context.Context, req *protectorpb.GetAccessListItemsRequest) (*protectorpb.GetAccessListItemsResponse, error) {
+	return &protectorpb.GetAccessListItemsResponse{Items: s.protector.BlackListItems(ctx)}, nil
+}
+
+func (s *Server) GetWhiteListItems(ctx context.Context, req *protectorpb.GetAccessListItemsRequest) (*protectorpb.GetAccessListItemsResponse, error) {
+	return &protectorpb.GetAccessListItemsResponse{Items: s.protector.WhiteListItems(ctx)}, nil
 }
 
 func NewServer(protector *bruteforceprotector.BruteForceProtector) *Server {

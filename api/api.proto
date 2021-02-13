@@ -30,14 +30,8 @@ message ResetIPLimitRequest {
 message ResetIPLimitResponse {}
 
 
-enum AccessListType {
-  BLACK = 0;
-  WHITE = 1;
-}
-
 message AddAccessListRequest {
   string networkCIDR = 1;
-  AccessListType listType = 2;
 }
 
 message AddAccessListResponse {
@@ -47,7 +41,6 @@ message AddAccessListResponse {
 
 message RemoveAccessListRequest {
   string networkCIDR = 1;
-  AccessListType listType = 2;
 }
 
 message RemoveAccessListResponse {
@@ -57,7 +50,6 @@ message RemoveAccessListResponse {
 
 message GetAccessListItemsRequest {
   string networkCIDR = 1;
-  AccessListType listType = 2;
 }
 
 message GetAccessListItemsResponse {
@@ -70,7 +62,11 @@ service BruteforceProtectorService{
   rpc ResetLogin(ResetLoginLimitRequest) returns(ResetLoginLimitResponse) {};
   rpc ResetIP(ResetIPLimitRequest) returns(ResetIPLimitResponse) {};
 
-  rpc AddAccessListItem(AddAccessListRequest) returns(AddAccessListResponse) {};
-  rpc RemoveAccessListItem(RemoveAccessListRequest) returns(RemoveAccessListResponse) {};
-  rpc GetAccessListItems(GetAccessListItemsRequest) returns(GetAccessListItemsResponse) {};
+  rpc AddBlackListItem(AddAccessListRequest) returns(AddAccessListResponse) {};
+  rpc RemoveBlackListItem(RemoveAccessListRequest) returns(RemoveAccessListResponse) {};
+  rpc GetBlackListItems(GetAccessListItemsRequest) returns(GetAccessListItemsResponse) {};
+
+  rpc AddWhiteListItem(AddAccessListRequest) returns(AddAccessListResponse) {};
+  rpc RemoveWhiteListItem(RemoveAccessListRequest) returns(RemoveAccessListResponse) {};
+  rpc GetWhiteListItems(GetAccessListItemsRequest) returns(GetAccessListItemsResponse) {};
 }
