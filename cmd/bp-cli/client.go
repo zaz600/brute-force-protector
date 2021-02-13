@@ -47,9 +47,12 @@ func main() {
 							defer client.conn.Close()
 
 							req := &protectorpb.AddBlackListRequest{NetworkCIDR: c.Args().First()}
-							_, err = client.client.AddBlackList(context.TODO(), req)
+							result, err := client.client.AddBlackList(context.TODO(), req)
 							if err != nil {
 								return cli.Exit(fmt.Sprintf("error add item to blacklist: %v", err), 9)
+							}
+							if !result.Result {
+								return cli.Exit(fmt.Sprintf("error add item to blacklist: %v", result.Error), 9)
 							}
 							return nil
 						},
@@ -125,9 +128,12 @@ func main() {
 							defer client.conn.Close()
 
 							req := &protectorpb.AddWhiteListRequest{NetworkCIDR: c.Args().First()}
-							_, err = client.client.AddWhiteList(context.TODO(), req)
+							result, err := client.client.AddWhiteList(context.TODO(), req)
 							if err != nil {
 								return cli.Exit(fmt.Sprintf("error add item to whitelist: %v", err), 9)
+							}
+							if !result.Result {
+								return cli.Exit(fmt.Sprintf("error add item to whitelist: %v", result.Error), 9)
 							}
 							return nil
 						},

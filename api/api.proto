@@ -33,7 +33,10 @@ message AddBlackListRequest {
   string networkCIDR = 1;
 }
 
-message AddBlackListResponse {}
+message AddBlackListResponse {
+  bool result = 1;
+  string error = 2;
+}
 
 message RemoveBlackListRequest {
   string networkCIDR = 1;
@@ -51,7 +54,10 @@ message AddWhiteListRequest {
   string networkCIDR = 1;
 }
 
-message AddWhiteListResponse {}
+message AddWhiteListResponse {
+  bool result = 1;
+  string error = 2;
+}
 
 message RemoveWhiteListRequest {
   string networkCIDR = 1;

@@ -2,6 +2,7 @@ package handler
 
 import (
 	"context"
+	"fmt"
 	"log"
 
 	protectorpb "github.com/zaz600/brute-force-protector/api"
@@ -39,10 +40,14 @@ func (s *Server) ResetIP(ctx context.Context, req *protectorpb.ResetIPLimitReque
 }
 
 func (s *Server) AddBlackList(ctx context.Context, req *protectorpb.AddBlackListRequest) (*protectorpb.AddBlackListResponse, error) {
-	// TODO логировать ошибку или вернуть ее в ответ
 	log.Printf("AddBlackList with params: %v\n", req)
-	_ = s.protector.AddBlackList(ctx, req.NetworkCIDR)
-	return &protectorpb.AddBlackListResponse{}, nil
+	resp := &protectorpb.AddBlackListResponse{Result: true}
+	err := s.protector.AddBlackList(ctx, req.NetworkCIDR)
+	if err != nil {
+		resp.Result = false
+		resp.Error = fmt.Sprintf("error add item to black list: %s", err)
+	}
+	return resp, nil
 }
 
 func (s *Server) RemoveBlackList(ctx context.Context, req *protectorpb.RemoveBlackListRequest) (*protectorpb.RemoveBlackListResponse, error) {
@@ -52,10 +57,14 @@ func (s *Server) RemoveBlackList(ctx context.Context, req *protectorpb.RemoveBla
 }
 
 func (s *Server) AddWhiteList(ctx context.Context, req *protectorpb.AddWhiteListRequest) (*protectorpb.AddWhiteListResponse, error) {
-	// TODO логировать ошибку или вернуть ее в ответ
 	log.Printf("AddWhiteList with params: %v\n", req)
-	_ = s.protector.AddWhiteList(ctx, req.NetworkCIDR)
-	return &protectorpb.AddWhiteListResponse{}, nil
+	resp := &protectorpb.AddWhiteListResponse{Result: true}
+	err := s.protector.AddWhiteList(ctx, req.NetworkCIDR)
+	if err != nil {
+		resp.Result = false
+		resp.Error = fmt.Sprintf("error add item to white list: %s", err)
+	}
+	return resp, nil
 }
 
 func (s *Server) RemoveWhiteList(ctx context.Context, req *protectorpb.RemoveWhiteListRequest) (*protectorpb.RemoveWhiteListResponse, error) {
