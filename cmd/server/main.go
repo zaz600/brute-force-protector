@@ -14,6 +14,9 @@ import (
 
 func main() {
 	addr := flag.String("listen", "0.0.0.0:50051", "server host:port")
+	loginLimit := flag.Int64("n", 10, "login limit per minute")
+	passwordLimit := flag.Int64("m", 100, "password limit per minute")
+	ipLimit := flag.Int64("k", 1000, "ip limit per minute")
 	flag.Parse()
 
 	listener, err := net.Listen("tcp", *addr)
@@ -22,9 +25,9 @@ func main() {
 	}
 
 	protector := bruteforceprotector.NewBruteForceProtector(
-		bruteforceprotector.WithLoginLimit(10),
-		bruteforceprotector.WithPasswordLimit(100),
-		bruteforceprotector.WithIPLimit(1000),
+		bruteforceprotector.WithLoginLimit(*loginLimit),
+		bruteforceprotector.WithPasswordLimit(*passwordLimit),
+		bruteforceprotector.WithIPLimit(*ipLimit),
 	)
 
 	srv := handler.NewServer(protector)
