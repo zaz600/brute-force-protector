@@ -5,8 +5,8 @@
 - [x] bruteforce protector service methods  
 - [ ] persistent storage (MongoDB/Redis)  
 - [x] grpc api .proto  
-- [ ] grpc server  
-- [ ] bruteforce protector cli (grpc)
+- [x] grpc server  
+- [x] bruteforce protector cli (grpc)
 - [ ] ctx
 - [ ] logger
 - [ ] tests
