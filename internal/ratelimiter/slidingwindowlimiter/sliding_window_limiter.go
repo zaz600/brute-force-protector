@@ -37,15 +37,13 @@ func (r *SlidingWindowRateLimiter) LimitReached(key string) bool {
 }
 
 func (r *SlidingWindowRateLimiter) getCountInWindow(key string) int64 {
-	var count int64
-	var firstLeftEl = -1
 	windowLeft := time.Now().UnixNano() - r.window.Nanoseconds()
+
+	var firstLeftEl = -1
 	for i, value := range r.db[key] {
 		if value >= windowLeft {
-			count++
-			if firstLeftEl == -1 {
-				firstLeftEl = i
-			}
+			firstLeftEl = i
+			break
 		}
 	}
 	// TODO унести в отдельную
@@ -53,7 +51,7 @@ func (r *SlidingWindowRateLimiter) getCountInWindow(key string) int64 {
 	if firstLeftEl > 0 {
 		r.db[key] = r.db[key][firstLeftEl : len(r.db[key])-1]
 	}
-	return count
+	return int64(len(r.db[key]))
 }
 
 func NewSlidingWindowRateLimiter(window time.Duration, limit int64) ratelimiter.RateLimiter {
