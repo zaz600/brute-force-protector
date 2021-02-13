@@ -68,20 +68,20 @@ func (m *MemoryAccessList) Exists(networkCIDR string) bool {
 func (m *MemoryAccessList) IsInList(ip string) bool {
 	m.RLock()
 	defer m.RUnlock()
+	return m.isInList(net.ParseIP(ip))
+}
 
-	parsedIP := net.ParseIP(ip)
-	if parsedIP == nil {
+func (m *MemoryAccessList) isInList(ip net.IP) bool {
+	if ip == nil {
 		return false
 	}
-
 	found := false
 	for _, val := range m.db {
-		if ok := val.IPNet.Contains(parsedIP); ok {
+		if ok := val.IPNet.Contains(ip); ok {
 			found = true
 			break
 		}
 	}
-
 	return found
 }
 
