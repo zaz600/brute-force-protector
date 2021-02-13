@@ -51,6 +51,42 @@ func createApp() *cli.App {
 					createShowAccessListItemsCommand(White),
 				},
 			},
+			{
+				Name:  "reset",
+				Usage: "reset limits",
+				Subcommands: []*cli.Command{
+					{
+						Name:  "login",
+						Usage: "reset login limit",
+						Action: func(c *cli.Context) error {
+							if c.NArg() == 0 {
+								return cli.Exit("missed LOGIN arg", 10)
+							}
+							service := bpService{host: c.String("host")}
+							err := service.resetLoginLimit(c.Args().First())
+							if err != nil {
+								return cli.Exit(err, 9)
+							}
+							return nil
+						},
+					},
+					{
+						Name:  "ip",
+						Usage: "reset ip limit",
+						Action: func(c *cli.Context) error {
+							if c.NArg() == 0 {
+								return cli.Exit("missed IP arg", 10)
+							}
+							service := bpService{host: c.String("host")}
+							err := service.resetIPLimit(c.Args().First())
+							if err != nil {
+								return cli.Exit(err, 9)
+							}
+							return nil
+						},
+					},
+				},
+			},
 		},
 	}
 	return app

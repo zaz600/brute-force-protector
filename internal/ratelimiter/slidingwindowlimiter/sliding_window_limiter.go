@@ -17,7 +17,7 @@ type SlidingWindowRateLimiter struct {
 func (r *SlidingWindowRateLimiter) Reset(key string) {
 	r.Lock()
 	defer r.Unlock()
-	r.db[key] = make([]int64, 0, r.limit)
+	delete(r.db, key)
 }
 
 func (r *SlidingWindowRateLimiter) LimitReached(key string) bool {
@@ -49,6 +49,7 @@ func (r *SlidingWindowRateLimiter) getCountInWindow(key string) int64 {
 		}
 	}
 	// TODO унести в отдельную
+	// TODO ключи по которым давно не было запроса могут зависать их надо удалять
 	if firstLeftEl > 0 {
 		r.db[key] = r.db[key][firstLeftEl : len(r.db[key])-1]
 	}

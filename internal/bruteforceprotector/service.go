@@ -89,7 +89,7 @@ func (b *BruteForceProtector) ResetLogin(ctx context.Context, login string) {
 	b.loginLimiter.Reset(login)
 }
 
-func (b *BruteForceProtector) ResetIP(ip string) {
+func (b *BruteForceProtector) ResetIP(ctx context.Context, ip string) {
 	b.ipLimiter.Reset(ip)
 }
 

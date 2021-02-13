@@ -35,7 +35,7 @@ func (s *Server) ResetLogin(ctx context.Context, req *protectorpb.ResetLoginLimi
 
 func (s *Server) ResetIP(ctx context.Context, req *protectorpb.ResetIPLimitRequest) (*protectorpb.ResetIPLimitResponse, error) {
 	log.Printf("ResetIP with params: %v\n", req)
-	s.protector.ResetLogin(ctx, req.GetLogin())
+	s.protector.ResetIP(ctx, req.GetIp())
 	return &protectorpb.ResetIPLimitResponse{}, nil
 }
 

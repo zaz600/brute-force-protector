@@ -25,7 +25,7 @@ message ResetLoginLimitRequest {
 message ResetLoginLimitResponse {}
 
 message ResetIPLimitRequest {
-  string login = 1;
+  string ip = 1;
 }
 message ResetIPLimitResponse {}
 

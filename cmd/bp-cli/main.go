@@ -111,3 +111,33 @@ func (s bpService) getAccessListItems(listType ListType) ([]string, error) {
 	}
 	return result.Items, nil
 }
+
+func (s bpService) resetLoginLimit(login string) error {
+	client, err := newBpClient(s.host)
+	if err != nil {
+		return fmt.Errorf("error connect to host %s: %w", s.host, err)
+	}
+	defer client.conn.Close()
+
+	req := &protectorpb.ResetLoginLimitRequest{Login: login}
+	_, err = client.rpcClient.ResetLogin(context.TODO(), req)
+	if err != nil {
+		return fmt.Errorf("error reset login limit: %w", err)
+	}
+	return nil
+}
+
+func (s bpService) resetIPLimit(ip string) error {
+	client, err := newBpClient(s.host)
+	if err != nil {
+		return fmt.Errorf("error connect to host %s: %w", s.host, err)
+	}
+	defer client.conn.Close()
+
+	req := &protectorpb.ResetIPLimitRequest{Ip: ip}
+	_, err = client.rpcClient.ResetIP(context.TODO(), req)
+	if err != nil {
+		return fmt.Errorf("error reset ip limit: %w", err)
+	}
+	return nil
+}
