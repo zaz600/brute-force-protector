@@ -1,5 +1,7 @@
 run:
   tests: false
+  skip-dirs:
+    - api/
 
 linters:
   disable-all: false
