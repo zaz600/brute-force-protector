@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"log"
 	"net"
 
@@ -12,7 +13,10 @@ import (
 )
 
 func main() {
-	listener, err := net.Listen("tcp", "0.0.0.0:50051")
+	addr := flag.String("listen", "0.0.0.0:50051", "server host:port")
+	flag.Parse()
+
+	listener, err := net.Listen("tcp", *addr)
 	if err != nil {
 		log.Fatal(err)
 	}

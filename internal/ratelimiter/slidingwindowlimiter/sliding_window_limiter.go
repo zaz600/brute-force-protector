@@ -38,7 +38,7 @@ func (r *SlidingWindowRateLimiter) LimitReached(key string) bool {
 
 func (r *SlidingWindowRateLimiter) getCountInWindow(key string) int64 {
 	var count int64
-	firstLeftEl := -1
+	var firstLeftEl = -1
 	windowLeft := time.Now().UnixNano() - r.window.Nanoseconds()
 	for i, value := range r.db[key] {
 		if value >= windowLeft {

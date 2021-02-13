@@ -19,3 +19,5 @@ linters:
     - testpackage
     - wsl
     - wrapcheck
+    - forbidigo
+    - gci
