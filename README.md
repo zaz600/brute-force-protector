@@ -10,3 +10,5 @@
 - [ ] ctx
 - [ ] logger
 - [ ] tests
+- [x] Makefile
+- [x] Docker
