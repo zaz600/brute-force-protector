@@ -85,8 +85,9 @@ func createAddAccessListCommand(listType ListType) *cli.Command {
 
 func createRemoveAccessListCommand(listType ListType) *cli.Command {
 	return &cli.Command{
-		Name:  "remove",
-		Usage: "remove an item to whitelist",
+		Name:      "remove",
+		Usage:     fmt.Sprintf("remove an item from %s", listType),
+		ArgsUsage: "networkCIDR",
 		Action: func(c *cli.Context) error {
 			if c.NArg() != 1 {
 				return cli.Exit("missed networkCIDR arg", 10)
@@ -104,7 +105,7 @@ func createRemoveAccessListCommand(listType ListType) *cli.Command {
 func createShowAccessListItemsCommand(listType ListType) *cli.Command {
 	return &cli.Command{
 		Name:  "show",
-		Usage: "show whitelist items",
+		Usage: fmt.Sprintf("show %s items", listType),
 		Action: func(c *cli.Context) error {
 			if c.NArg() != 0 {
 				return cli.Exit("unknown argument", 10)
@@ -127,8 +128,9 @@ func createShowAccessListItemsCommand(listType ListType) *cli.Command {
 
 func createResetLoginLimitCommand() *cli.Command {
 	return &cli.Command{
-		Name:  "login",
-		Usage: "reset login limit",
+		Name:      "login",
+		Usage:     "reset login limit",
+		ArgsUsage: "login",
 		Action: func(c *cli.Context) error {
 			if c.NArg() == 0 {
 				return cli.Exit("missed LOGIN arg", 10)
@@ -145,8 +147,9 @@ func createResetLoginLimitCommand() *cli.Command {
 
 func createResetIPLimitCommand() *cli.Command {
 	return &cli.Command{
-		Name:  "ip",
-		Usage: "reset ip limit",
+		Name:      "ip",
+		Usage:     "reset ip limit",
+		ArgsUsage: "ip",
 		Action: func(c *cli.Context) error {
 			if c.NArg() == 0 {
 				return cli.Exit("missed IP arg", 10)
