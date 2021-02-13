@@ -17,3 +17,9 @@ build-cli:
 	go build -o ./bin/bp-cli ./cmd/bp-cli
 
 release: build test lint
+
+run:
+	docker-compose -f docker-compose.yml -p bruteforce-protector up -d
+
+stop:
+	docker-compose -f docker-compose.yml -p bruteforce-protector down

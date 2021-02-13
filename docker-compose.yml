@@ -1,0 +1,7 @@
+version: "3"
+
+services:
+  bp-server:
+    build: .
+    ports:
+      - 50051:50051
