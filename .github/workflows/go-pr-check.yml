@@ -28,19 +28,15 @@ jobs:
           fi
 
       - name: Build server
-        working-directory: ${{ github.head_ref }}
         run: go build -v ./cmd/server/...
 
       - name: Build cli
-        working-directory: ${{ github.head_ref }}
         run: go build -v ./cmd/bp-cli/...
 
       - name: Unit tests
-        working-directory: ${{ github.head_ref }}
         run: go test -gcflags=-l -v ./...
 
       - name: Optimization tests
-        working-directory: ${{ github.head_ref }}
         run: go test -gcflags=-l -v -count=1 -timeout=30s -tags bench ./...
 
       - name: golangci-lint
@@ -48,4 +44,3 @@ jobs:
         with:
           version: v1.32.1
           args: --timeout=5m -v
-          working-directory: ${{ github.head_ref }}
