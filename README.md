@@ -1,5 +1,6 @@
 # Проектная работа - Bruteforce Protector Service
 
+- Курс [Golang Developer. Professional](https://otus.ru/lessons/golang-professional/)
 - [ТЗ](docs/specification.md)
 
 ## Сборка и тестирование
