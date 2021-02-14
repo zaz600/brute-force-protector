@@ -93,14 +93,24 @@ func (b *BPServer) AddWhiteListItem(ctx context.Context, req *protectorpb.AddAcc
 
 func (b *BPServer) RemoveBlackListItem(ctx context.Context, req *protectorpb.RemoveAccessListRequest) (*protectorpb.RemoveAccessListResponse, error) {
 	log.Printf("RemoveBlackList with params: %v\n", req)
-	b.bp.RemoveBlackList(ctx, req.NetworkCIDR)
-	return &protectorpb.RemoveAccessListResponse{}, nil
+	resp := &protectorpb.RemoveAccessListResponse{}
+	err := b.bp.RemoveBlackList(ctx, req.NetworkCIDR)
+	if err != nil {
+		resp.Result = false
+		resp.Error = fmt.Sprintf("error remove item from black list: %s", err)
+	}
+	return resp, nil
 }
 
 func (b *BPServer) RemoveWhiteListItem(ctx context.Context, req *protectorpb.RemoveAccessListRequest) (*protectorpb.RemoveAccessListResponse, error) {
 	log.Printf("RemoveWhiteList with params: %v\n", req)
-	b.bp.RemoveWhiteList(ctx, req.NetworkCIDR)
-	return &protectorpb.RemoveAccessListResponse{}, nil
+	resp := &protectorpb.RemoveAccessListResponse{}
+	err := b.bp.RemoveWhiteList(ctx, req.NetworkCIDR)
+	if err != nil {
+		resp.Result = false
+		resp.Error = fmt.Sprintf("error remove item from white list: %s", err)
+	}
+	return resp, nil
 }
 
 func (b *BPServer) GetBlackListItems(ctx context.Context, req *protectorpb.GetAccessListItemsRequest) (*protectorpb.GetAccessListItemsResponse, error) {
