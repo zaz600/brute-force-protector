@@ -7,3 +7,7 @@ services:
       dockerfile: build/Dockerfile
     ports:
       - 50051:50051
+    environment:
+      - BP_LOGIN_LIMIT=10
+      - BP_PASSWORD_LIMIT=100
+      - BP_IP_LIMIT=1000
