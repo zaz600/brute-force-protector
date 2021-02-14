@@ -91,13 +91,13 @@ func (b *BPServer) AddWhiteListItem(ctx context.Context, req *protectorpb.AddAcc
 	return resp, nil
 }
 
-func (b *BPServer) RemoveBlackList(ctx context.Context, req *protectorpb.RemoveAccessListRequest) (*protectorpb.RemoveAccessListResponse, error) {
+func (b *BPServer) RemoveBlackListItem(ctx context.Context, req *protectorpb.RemoveAccessListRequest) (*protectorpb.RemoveAccessListResponse, error) {
 	log.Printf("RemoveBlackList with params: %v\n", req)
 	b.bp.RemoveBlackList(ctx, req.NetworkCIDR)
 	return &protectorpb.RemoveAccessListResponse{}, nil
 }
 
-func (b *BPServer) RemoveWhiteList(ctx context.Context, req *protectorpb.RemoveAccessListRequest) (*protectorpb.RemoveAccessListResponse, error) {
+func (b *BPServer) RemoveWhiteListItem(ctx context.Context, req *protectorpb.RemoveAccessListRequest) (*protectorpb.RemoveAccessListResponse, error) {
 	log.Printf("RemoveWhiteList with params: %v\n", req)
 	b.bp.RemoveWhiteList(ctx, req.NetworkCIDR)
 	return &protectorpb.RemoveAccessListResponse{}, nil
