@@ -9,29 +9,19 @@ import (
 )
 
 type RedisAccessList struct {
-	rdb      *redis.Client
-	hashName string
+	redisClient *redis.Client
+	hashName    string
 }
 
-func NewRedisAccessList(hashName string, host string) *RedisAccessList {
-	rdb := redis.NewClient(&redis.Options{
-		Addr:     host,
-		Password: "", // no password set
-		DB:       0,  // use default DB
-	})
-
-	if err := rdb.Ping(context.Background()).Err(); err != nil {
-		log.Printf("can't connect to redis: %v", err)
-	}
-
+func NewRedisAccessList(hashName string, redisClient *redis.Client) *RedisAccessList {
 	return &RedisAccessList{
-		rdb:      rdb,
-		hashName: hashName,
+		redisClient: redisClient,
+		hashName:    hashName,
 	}
 }
 
 func (r *RedisAccessList) Add(networkCIDR string) error {
-	err := r.rdb.HSet(context.Background(), r.hashName, networkCIDR, "").Err()
+	err := r.redisClient.HSet(context.Background(), r.hashName, networkCIDR, "").Err()
 	if err != nil {
 		return err
 	}
@@ -39,7 +29,7 @@ func (r *RedisAccessList) Add(networkCIDR string) error {
 }
 
 func (r *RedisAccessList) Remove(networkCIDR string) error {
-	err := r.rdb.HDel(context.Background(), r.hashName, networkCIDR).Err()
+	err := r.redisClient.HDel(context.Background(), r.hashName, networkCIDR).Err()
 	if err != nil {
 		return err
 	}
@@ -47,7 +37,7 @@ func (r *RedisAccessList) Remove(networkCIDR string) error {
 }
 
 func (r *RedisAccessList) Exists(networkCIDR string) bool {
-	ok, err := r.rdb.HExists(context.Background(), r.hashName, networkCIDR).Result()
+	ok, err := r.redisClient.HExists(context.Background(), r.hashName, networkCIDR).Result()
 	if err != nil || !ok {
 		return false
 	}
@@ -79,7 +69,7 @@ func (r *RedisAccessList) isInList(ip net.IP, items []string) bool {
 }
 
 func (r *RedisAccessList) Len() int {
-	size, err := r.rdb.HLen(context.Background(), r.hashName).Result()
+	size, err := r.redisClient.HLen(context.Background(), r.hashName).Result()
 	if err != nil {
 		log.Println(err)
 	}
@@ -87,7 +77,7 @@ func (r *RedisAccessList) Len() int {
 }
 
 func (r *RedisAccessList) GetAll() []string {
-	items, err := r.rdb.HGetAll(context.Background(), r.hashName).Result()
+	items, err := r.redisClient.HGetAll(context.Background(), r.hashName).Result()
 
 	if err != nil {
 		log.Println(err)

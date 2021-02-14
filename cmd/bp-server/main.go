@@ -1,9 +1,11 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"os"
 
+	"github.com/go-redis/redis/v8"
 	"github.com/urfave/cli/v2"
 
 	bp "github.com/zaz600/brute-force-protector/internal/bruteforceprotector"
@@ -61,19 +63,42 @@ func createApp() *cli.App {
 			},
 		},
 		Action: func(c *cli.Context) error {
+			redisClient, err := getRedisClient(c.String("redis"))
+			if err != nil {
+				return cli.Exit(fmt.Sprintf("can't connect to redis: %v", err), 1)
+			}
+
 			protector := bp.NewBruteForceProtector(
 				bp.WithLoginLimit(c.Int64("n")),
 				bp.WithPasswordLimit(c.Int64("m")),
 				bp.WithIPLimit(c.Int64("k")),
-				bp.WithRedis(c.String("redis")),
+				bp.WithRedis(redisClient),
 			)
 			bpServer := grpc.NewBPServer(protector)
-			err := bpServer.ListenAndServe(c.String("listen"))
+			err = bpServer.ListenAndServe(c.String("listen"))
 			if err != nil {
-				return cli.Exit(fmt.Sprintf("Cannot start server: %v", err), 1)
+				return cli.Exit(fmt.Sprintf("Can't start server: %v", err), 1)
 			}
 			return nil
 		},
 	}
 	return app
+}
+
+func getRedisClient(redisHost string) (*redis.Client, error) {
+	if redisHost == "" {
+		return nil, nil
+	}
+
+	redisClient := redis.NewClient(&redis.Options{
+		Addr:     redisHost,
+		Password: "",
+		DB:       0,
+	})
+
+	if err := redisClient.Ping(context.Background()).Err(); err != nil {
+		return nil, fmt.Errorf("can't connect to redis: %w", err)
+	}
+
+	return redisClient, nil
 }

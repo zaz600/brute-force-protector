@@ -3,6 +3,8 @@ package bruteforceprotector
 import (
 	"time"
 
+	"github.com/go-redis/redis/v8"
+
 	"github.com/zaz600/brute-force-protector/internal/accesslist/redisaccesslist"
 	"github.com/zaz600/brute-force-protector/internal/ratelimiter/slidingwindowlimiter"
 )
@@ -27,11 +29,11 @@ func WithIPLimit(maxCount int64) ProtectorOption {
 	}
 }
 
-func WithRedis(host string) ProtectorOption {
+func WithRedis(redisClient *redis.Client) ProtectorOption {
 	return func(p *BruteForceProtector) {
-		if host != "" {
-			p.blackList = redisaccesslist.NewRedisAccessList("blacklist", host)
-			p.whiteList = redisaccesslist.NewRedisAccessList("whitelist", host)
+		if redisClient != nil {
+			p.blackList = redisaccesslist.NewRedisAccessList("blacklist", redisClient)
+			p.whiteList = redisaccesslist.NewRedisAccessList("whitelist", redisClient)
 		}
 	}
 }
