@@ -19,8 +19,8 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type BruteforceProtectorServiceClient interface {
 	Verify(ctx context.Context, in *VerifyRequest, opts ...grpc.CallOption) (*VerifyResponse, error)
-	ResetLogin(ctx context.Context, in *ResetLoginLimitRequest, opts ...grpc.CallOption) (*ResetLoginLimitResponse, error)
-	ResetIP(ctx context.Context, in *ResetIPLimitRequest, opts ...grpc.CallOption) (*ResetIPLimitResponse, error)
+	ResetLogin(ctx context.Context, in *ResetLoginLimitRequest, opts ...grpc.CallOption) (*ResetLimitResponse, error)
+	ResetIP(ctx context.Context, in *ResetIPLimitRequest, opts ...grpc.CallOption) (*ResetLimitResponse, error)
 	AddBlackListItem(ctx context.Context, in *AddAccessListRequest, opts ...grpc.CallOption) (*AddAccessListResponse, error)
 	RemoveBlackListItem(ctx context.Context, in *RemoveAccessListRequest, opts ...grpc.CallOption) (*RemoveAccessListResponse, error)
 	GetBlackListItems(ctx context.Context, in *GetAccessListItemsRequest, opts ...grpc.CallOption) (*GetAccessListItemsResponse, error)
@@ -46,8 +46,8 @@ func (c *bruteforceProtectorServiceClient) Verify(ctx context.Context, in *Verif
 	return out, nil
 }
 
-func (c *bruteforceProtectorServiceClient) ResetLogin(ctx context.Context, in *ResetLoginLimitRequest, opts ...grpc.CallOption) (*ResetLoginLimitResponse, error) {
-	out := new(ResetLoginLimitResponse)
+func (c *bruteforceProtectorServiceClient) ResetLogin(ctx context.Context, in *ResetLoginLimitRequest, opts ...grpc.CallOption) (*ResetLimitResponse, error) {
+	out := new(ResetLimitResponse)
 	err := c.cc.Invoke(ctx, "/bruteforceprotector.BruteforceProtectorService/ResetLogin", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -55,8 +55,8 @@ func (c *bruteforceProtectorServiceClient) ResetLogin(ctx context.Context, in *R
 	return out, nil
 }
 
-func (c *bruteforceProtectorServiceClient) ResetIP(ctx context.Context, in *ResetIPLimitRequest, opts ...grpc.CallOption) (*ResetIPLimitResponse, error) {
-	out := new(ResetIPLimitResponse)
+func (c *bruteforceProtectorServiceClient) ResetIP(ctx context.Context, in *ResetIPLimitRequest, opts ...grpc.CallOption) (*ResetLimitResponse, error) {
+	out := new(ResetLimitResponse)
 	err := c.cc.Invoke(ctx, "/bruteforceprotector.BruteforceProtectorService/ResetIP", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -123,8 +123,8 @@ func (c *bruteforceProtectorServiceClient) GetWhiteListItems(ctx context.Context
 // for forward compatibility
 type BruteforceProtectorServiceServer interface {
 	Verify(context.Context, *VerifyRequest) (*VerifyResponse, error)
-	ResetLogin(context.Context, *ResetLoginLimitRequest) (*ResetLoginLimitResponse, error)
-	ResetIP(context.Context, *ResetIPLimitRequest) (*ResetIPLimitResponse, error)
+	ResetLogin(context.Context, *ResetLoginLimitRequest) (*ResetLimitResponse, error)
+	ResetIP(context.Context, *ResetIPLimitRequest) (*ResetLimitResponse, error)
 	AddBlackListItem(context.Context, *AddAccessListRequest) (*AddAccessListResponse, error)
 	RemoveBlackListItem(context.Context, *RemoveAccessListRequest) (*RemoveAccessListResponse, error)
 	GetBlackListItems(context.Context, *GetAccessListItemsRequest) (*GetAccessListItemsResponse, error)
@@ -141,10 +141,10 @@ type UnimplementedBruteforceProtectorServiceServer struct {
 func (UnimplementedBruteforceProtectorServiceServer) Verify(context.Context, *VerifyRequest) (*VerifyResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Verify not implemented")
 }
-func (UnimplementedBruteforceProtectorServiceServer) ResetLogin(context.Context, *ResetLoginLimitRequest) (*ResetLoginLimitResponse, error) {
+func (UnimplementedBruteforceProtectorServiceServer) ResetLogin(context.Context, *ResetLoginLimitRequest) (*ResetLimitResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ResetLogin not implemented")
 }
-func (UnimplementedBruteforceProtectorServiceServer) ResetIP(context.Context, *ResetIPLimitRequest) (*ResetIPLimitResponse, error) {
+func (UnimplementedBruteforceProtectorServiceServer) ResetIP(context.Context, *ResetIPLimitRequest) (*ResetLimitResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ResetIP not implemented")
 }
 func (UnimplementedBruteforceProtectorServiceServer) AddBlackListItem(context.Context, *AddAccessListRequest) (*AddAccessListResponse, error) {

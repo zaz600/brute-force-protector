@@ -22,13 +22,11 @@ message ResetLoginLimitRequest {
   string login = 1;
 }
 
-message ResetLoginLimitResponse {}
+message ResetLimitResponse {}
 
 message ResetIPLimitRequest {
   string ip = 1;
 }
-message ResetIPLimitResponse {}
-
 
 message AddAccessListRequest {
   string networkCIDR = 1;
@@ -57,8 +55,8 @@ message GetAccessListItemsResponse {
 
 service BruteforceProtectorService{
   rpc Verify(VerifyRequest) returns(VerifyResponse) {};
-  rpc ResetLogin(ResetLoginLimitRequest) returns(ResetLoginLimitResponse) {};
-  rpc ResetIP(ResetIPLimitRequest) returns(ResetIPLimitResponse) {};
+  rpc ResetLogin(ResetLoginLimitRequest) returns(ResetLimitResponse) {};
+  rpc ResetIP(ResetIPLimitRequest) returns(ResetLimitResponse) {};
 
   rpc AddBlackListItem(AddAccessListRequest) returns(AddAccessListResponse) {};
   rpc RemoveBlackListItem(RemoveAccessListRequest) returns(RemoveAccessListResponse) {};

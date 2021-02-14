@@ -190,25 +190,23 @@ func TestBruteforceProtectorServer_ResetLimit(t *testing.T) {
 
 				if i == tt.count-1 {
 					require.False(t, resp.Ok)
-
-					// сброс
-					if tt.limitType == "login" {
-						req := &protectorpb.ResetLoginLimitRequest{Login: login}
-						_, err := client.ResetLogin(context.Background(), req)
-						require.NoError(t, err)
-					} else {
-						req := &protectorpb.ResetIPLimitRequest{Ip: ip}
-						_, err := client.ResetIP(context.Background(), req)
-						require.NoError(t, err)
-					}
-					// повтор
-					resp, err := verify(login, password, ip, client)
-					require.NoError(t, err)
-					require.True(t, resp.Ok)
 				} else {
 					require.True(t, resp.Ok)
 				}
 			}
+
+			// сброс
+			if tt.limitType == "login" {
+				_, err := resetLimit(tt.limitType, login, client)
+				require.NoError(t, err)
+			} else {
+				_, err := resetLimit(tt.limitType, ip, client)
+				require.NoError(t, err)
+			}
+			// повтор
+			resp, err := verify(login, password, ip, client)
+			require.NoError(t, err)
+			require.True(t, resp.Ok)
 		})
 	}
 }
@@ -246,4 +244,16 @@ func verify(login string, password string, ip string, client protectorpb.Brutefo
 	return client.Verify(context.Background(), &protectorpb.VerifyRequest{
 		VerifyParams: params,
 	})
+}
+
+func resetLimit(limitType string, value string, client protectorpb.BruteforceProtectorServiceClient) (*protectorpb.ResetLimitResponse, error) {
+	if limitType == "login" {
+		return client.ResetLogin(context.Background(), &protectorpb.ResetLoginLimitRequest{
+			Login: value,
+		})
+	} else {
+		return client.ResetIP(context.Background(), &protectorpb.ResetIPLimitRequest{
+			Ip: value,
+		})
+	}
 }

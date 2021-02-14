@@ -57,16 +57,16 @@ func (b *BPServer) Verify(ctx context.Context, req *protectorpb.VerifyRequest) (
 	return resp, nil
 }
 
-func (b *BPServer) ResetLogin(ctx context.Context, req *protectorpb.ResetLoginLimitRequest) (*protectorpb.ResetLoginLimitResponse, error) {
+func (b *BPServer) ResetLogin(ctx context.Context, req *protectorpb.ResetLoginLimitRequest) (*protectorpb.ResetLimitResponse, error) {
 	log.Printf("ResetLogin with params: %v\n", req)
 	b.bp.ResetLogin(ctx, req.GetLogin())
-	return &protectorpb.ResetLoginLimitResponse{}, nil
+	return &protectorpb.ResetLimitResponse{}, nil
 }
 
-func (b *BPServer) ResetIP(ctx context.Context, req *protectorpb.ResetIPLimitRequest) (*protectorpb.ResetIPLimitResponse, error) {
+func (b *BPServer) ResetIP(ctx context.Context, req *protectorpb.ResetIPLimitRequest) (*protectorpb.ResetLimitResponse, error) {
 	log.Printf("ResetIP with params: %v\n", req)
 	b.bp.ResetIP(ctx, req.GetIp())
-	return &protectorpb.ResetIPLimitResponse{}, nil
+	return &protectorpb.ResetLimitResponse{}, nil
 }
 
 func (b *BPServer) AddBlackListItem(ctx context.Context, req *protectorpb.AddAccessListRequest) (*protectorpb.AddAccessListResponse, error) {
