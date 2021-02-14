@@ -2,6 +2,8 @@ version: "3"
 
 services:
   bp-server:
-    build: .
+    build:
+      context: ../
+      dockerfile: build/Dockerfile
     ports:
       - 50051:50051

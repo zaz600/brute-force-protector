@@ -1,3 +1,13 @@
+# Проектная работа - Bruteforce Protector Service
+
+- [ТЗ](docs/specification.md)
+
+## Сборка и тестирование
+- TBD
+
+## Команды bp-cli
+- TBD 
+
 ## Roadmap
 
 - [x] IP access list  

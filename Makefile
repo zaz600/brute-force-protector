@@ -7,8 +7,16 @@ lint:
 	golangci-lint run ./...
 
 test:
+	go fmt ./internal/...
+	go vet ./internal/...
+	go test -v ./internal/...
 	go test -v -race ./internal/...
 	go test -gcflags=-l -count=1 -timeout=30s -bench=. -run=^$  ./internal/...
+
+	go test -cover ./internal/... | grep coverage
+
+deploy:
+	docker-compose -f build/docker-compose.yml up -d --build
 
 build-server:
 	go build -o ./bin/bp-server ./cmd/bp-server
@@ -19,7 +27,10 @@ build-cli:
 release: build test lint
 
 run:
-	docker-compose -f docker-compose.yml -p bruteforce-protector up -d
+	docker-compose -f build/docker-compose.yml -p bruteforce-protector up -d --build
 
 stop:
-	docker-compose -f docker-compose.yml -p bruteforce-protector down
+	docker-compose -f build/docker-compose.yml -p bruteforce-protector down
+
+generate:
+	protoc --go_out=. --go-grpc_out=. api/api.proto
