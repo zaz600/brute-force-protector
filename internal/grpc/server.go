@@ -38,6 +38,7 @@ func (b *BPServer) ListenAndServe(addr string) error {
 	if err != nil {
 		return err
 	}
+	log.Println("start BP Server on", addr)
 
 	protectorpb.RegisterBruteforceProtectorServiceServer(grpcServer, b)
 	return grpcServer.Serve(listener)
