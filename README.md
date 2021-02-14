@@ -14,8 +14,23 @@
 - `make release` - сборка клиента, сервера, запуск тестов и линтера
 - `make generate` - генерация protobuf/grpc
 
-## Команды bp-cli
-- TBD 
+## bp-cli
+`bp-cli` - CLI клиент для Bruteforce Protector. 
+
+Адрес сервера (опционально) указывается при помощи ключа `-server 127.0.0.1:50051`, 
+который можно добавить к командам.
+
+### Список команд
+
+- `bp-cli help` - справка по использованию.
+- `bp-cli blacklist add <network>` - добавление подсети в черный список.
+- `bp-cli blacklist remove <network>` - удаление подсети из черного списка.
+- `bp-cli blacklist show` - вывод содержимого черного списка.
+- `bp-cli whitelist add <network>` - добавление подсети в белый список.
+- `bp-cli whitelist remove <network>` - удаление подсети из белого списка.
+- `bp-cli whitelist show` - вывод содержимого белого списка.
+- `bp-cli reset login <login>` - сброс лимита для логина.
+- `bp-cli reset ip <ip>` - сброс лимита для IP.
 
 ## Roadmap
 

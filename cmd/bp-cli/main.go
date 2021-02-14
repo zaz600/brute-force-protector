@@ -40,13 +40,13 @@ func newBpClient(server string) (*bpClient, error) {
 }
 
 type bpService struct {
-	host string
+	server string
 }
 
 func (s bpService) addAccessList(item string, listType ListType) error {
-	client, err := newBpClient(s.host)
+	client, err := newBpClient(s.server)
 	if err != nil {
-		return fmt.Errorf("error connect to host %s: %w", s.host, err)
+		return fmt.Errorf("error connect to server %s: %w", s.server, err)
 	}
 	defer client.conn.Close()
 
@@ -70,9 +70,9 @@ func (s bpService) addAccessList(item string, listType ListType) error {
 }
 
 func (s bpService) removeAccessList(item string, listType ListType) error {
-	client, err := newBpClient(s.host)
+	client, err := newBpClient(s.server)
 	if err != nil {
-		return fmt.Errorf("error connect to host %s: %w", s.host, err)
+		return fmt.Errorf("error connect to server %s: %w", s.server, err)
 	}
 	defer client.conn.Close()
 
@@ -91,9 +91,9 @@ func (s bpService) removeAccessList(item string, listType ListType) error {
 }
 
 func (s bpService) getAccessListItems(listType ListType) ([]string, error) {
-	client, err := newBpClient(s.host)
+	client, err := newBpClient(s.server)
 	if err != nil {
-		return nil, fmt.Errorf("error connect to host %s: %w", s.host, err)
+		return nil, fmt.Errorf("error connect to server %s: %w", s.server, err)
 	}
 	defer client.conn.Close()
 	req := &protectorpb.GetAccessListItemsRequest{}
@@ -113,9 +113,9 @@ func (s bpService) getAccessListItems(listType ListType) ([]string, error) {
 }
 
 func (s bpService) resetLoginLimit(login string) error {
-	client, err := newBpClient(s.host)
+	client, err := newBpClient(s.server)
 	if err != nil {
-		return fmt.Errorf("error connect to host %s: %w", s.host, err)
+		return fmt.Errorf("error connect to server %s: %w", s.server, err)
 	}
 	defer client.conn.Close()
 
@@ -128,9 +128,9 @@ func (s bpService) resetLoginLimit(login string) error {
 }
 
 func (s bpService) resetIPLimit(ip string) error {
-	client, err := newBpClient(s.host)
+	client, err := newBpClient(s.server)
 	if err != nil {
-		return fmt.Errorf("error connect to host %s: %w", s.host, err)
+		return fmt.Errorf("error connect to server %s: %w", s.server, err)
 	}
 	defer client.conn.Close()
 

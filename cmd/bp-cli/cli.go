@@ -20,13 +20,14 @@ func createApp() *cli.App {
 	var host string
 
 	app := &cli.App{
-		Name:  "bp-cli",
-		Usage: "Bruteforce Protector Client",
+		Name:     "bp-cli",
+		HelpName: "bp-cli",
+		Usage:    "Bruteforce Protector Client",
 		Flags: []cli.Flag{
 			&cli.StringFlag{
-				Name:        "host",
+				Name:        "server",
 				Value:       "127.0.0.1:50051",
-				Usage:       "bruteforce protector host",
+				Usage:       "bruteforce protector server",
 				Destination: &host,
 			},
 		},
@@ -68,13 +69,13 @@ func createAddAccessListCommand(listType ListType) *cli.Command {
 	return &cli.Command{
 		Name:      "add",
 		Usage:     fmt.Sprintf("add an item to %s", listType),
-		ArgsUsage: "networkCIDR",
+		ArgsUsage: "<networkCIDR>",
 		Action: func(c *cli.Context) error {
 			if c.NArg() != 1 {
 				return cli.Exit("missed networkCIDR arg", 10)
 			}
 
-			service := bpService{host: c.String("host")}
+			service := bpService{server: c.String("server")}
 			if err := service.addAccessList(c.Args().First(), listType); err != nil {
 				return cli.Exit(err, 9)
 			}
@@ -87,13 +88,13 @@ func createRemoveAccessListCommand(listType ListType) *cli.Command {
 	return &cli.Command{
 		Name:      "remove",
 		Usage:     fmt.Sprintf("remove an item from %s", listType),
-		ArgsUsage: "networkCIDR",
+		ArgsUsage: "<networkCIDR>",
 		Action: func(c *cli.Context) error {
 			if c.NArg() != 1 {
 				return cli.Exit("missed networkCIDR arg", 10)
 			}
 
-			service := bpService{host: c.String("host")}
+			service := bpService{server: c.String("server")}
 			if err := service.removeAccessList(c.Args().First(), listType); err != nil {
 				return cli.Exit(err, 9)
 			}
@@ -111,7 +112,7 @@ func createShowAccessListItemsCommand(listType ListType) *cli.Command {
 				return cli.Exit("unknown argument", 10)
 			}
 
-			service := bpService{host: c.String("host")}
+			service := bpService{server: c.String("server")}
 			items, err := service.getAccessListItems(listType)
 			if err != nil {
 				return cli.Exit(err, 9)
@@ -130,12 +131,12 @@ func createResetLoginLimitCommand() *cli.Command {
 	return &cli.Command{
 		Name:      "login",
 		Usage:     "reset login limit",
-		ArgsUsage: "login",
+		ArgsUsage: "<login>",
 		Action: func(c *cli.Context) error {
 			if c.NArg() == 0 {
 				return cli.Exit("missed LOGIN arg", 10)
 			}
-			service := bpService{host: c.String("host")}
+			service := bpService{server: c.String("server")}
 			err := service.resetLoginLimit(c.Args().First())
 			if err != nil {
 				return cli.Exit(err, 9)
@@ -149,12 +150,12 @@ func createResetIPLimitCommand() *cli.Command {
 	return &cli.Command{
 		Name:      "ip",
 		Usage:     "reset ip limit",
-		ArgsUsage: "ip",
+		ArgsUsage: "<ip>",
 		Action: func(c *cli.Context) error {
 			if c.NArg() == 0 {
 				return cli.Exit("missed IP arg", 10)
 			}
-			service := bpService{host: c.String("host")}
+			service := bpService{server: c.String("server")}
 			err := service.resetIPLimit(c.Args().First())
 			if err != nil {
 				return cli.Exit(err, 9)
