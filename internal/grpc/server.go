@@ -11,8 +11,8 @@ import (
 
 	"google.golang.org/grpc"
 
-	protectorpb "github.com/zaz600/brute-force-protector/api"
 	"github.com/zaz600/brute-force-protector/internal/bruteforceprotector"
+	protectorpb "github.com/zaz600/brute-force-protector/internal/grpc/api"
 )
 
 type BPServer struct {

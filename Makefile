@@ -33,4 +33,4 @@ stop:
 	docker-compose -f build/docker-compose.yml -p bruteforce-protector down
 
 generate:
-	protoc --go_out=. --go-grpc_out=. api/api.proto
+	protoc --go_out=internal/grpc/ --go-grpc_out=internal/grpc/ api/api.proto
