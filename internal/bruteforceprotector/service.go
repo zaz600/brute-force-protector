@@ -109,8 +109,8 @@ func (b *BruteForceProtector) AddWhiteList(ctx context.Context, networkCIDR stri
 	return b.whiteList.Add(networkCIDR)
 }
 
-func (b *BruteForceProtector) RemoveWhiteList(ctx context.Context, networkCIDR string) {
-	b.whiteList.Remove(networkCIDR)
+func (b *BruteForceProtector) RemoveWhiteList(ctx context.Context, networkCIDR string) error {
+	return b.whiteList.Remove(networkCIDR)
 }
 
 func (b *BruteForceProtector) WhiteListItems(ctx context.Context) []string {

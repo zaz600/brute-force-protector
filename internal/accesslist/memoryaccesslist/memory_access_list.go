@@ -38,22 +38,17 @@ func (m *MemoryAccessList) Add(networkCIDR string) error {
 	return nil
 }
 
-func (m *MemoryAccessList) Remove(networkCIDR string) {
+func (m *MemoryAccessList) Remove(networkCIDR string) error {
 	m.Lock()
 	defer m.Unlock()
 	delete(m.db, networkCIDR)
+	return nil
 }
 
 func (m *MemoryAccessList) Len() int {
 	m.RLock()
 	defer m.RUnlock()
 	return len(m.db)
-}
-
-func (m *MemoryAccessList) Clear() {
-	m.Lock()
-	defer m.Unlock()
-	m.db = make(map[string]ListValue)
 }
 
 func (m *MemoryAccessList) Exists(networkCIDR string) bool {

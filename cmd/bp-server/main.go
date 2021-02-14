@@ -53,12 +53,19 @@ func createApp() *cli.App {
 				Usage:   "IPs limit per minute",
 				EnvVars: []string{"BP_IP_LIMIT"},
 			},
+			&cli.StringFlag{
+				Name:    "redis",
+				Value:   "",
+				Usage:   "use redis to store access lists",
+				EnvVars: []string{"BP_REDIS_HOST"},
+			},
 		},
 		Action: func(c *cli.Context) error {
 			protector := bp.NewBruteForceProtector(
 				bp.WithLoginLimit(c.Int64("n")),
 				bp.WithPasswordLimit(c.Int64("m")),
 				bp.WithIPLimit(c.Int64("k")),
+				bp.WithRedis(c.String("redis")),
 			)
 			bpServer := grpc.NewBPServer(protector)
 			err := bpServer.ListenAndServe(c.String("listen"))

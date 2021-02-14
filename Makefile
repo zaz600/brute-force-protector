@@ -35,8 +35,6 @@ stop:
 generate:
 	protoc --go_out=internal/grpc/ --go-grpc_out=internal/grpc/ api/api.proto
 
-itest-run:
+itest:
 	go test -v ./tests
-
-itest: run itest-run stop
 
