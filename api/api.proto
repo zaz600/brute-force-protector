@@ -48,9 +48,7 @@ message RemoveAccessListResponse {
   string error = 2;
 }
 
-message GetAccessListItemsRequest {
-  string networkCIDR = 1;
-}
+message GetAccessListItemsRequest {}
 
 message GetAccessListItemsResponse {
   repeated string items = 1;

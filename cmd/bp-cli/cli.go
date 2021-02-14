@@ -1,11 +1,29 @@
 package main
 
 import (
+	"context"
 	"fmt"
+	"log"
 	"os"
+	"time"
 
 	"github.com/urfave/cli/v2"
+	"google.golang.org/grpc"
+
+	protectorpb "github.com/zaz600/brute-force-protector/internal/grpc/api"
 )
+
+var clientTimeout = 5 * time.Second // TODO - config
+
+func newClient(ctx context.Context, server string) protectorpb.BruteforceProtectorServiceClient {
+	conn, err := grpc.DialContext(ctx, server, grpc.WithInsecure())
+
+	if err != nil {
+		log.Fatalf("Cannot connect to server %s: %v", server, err)
+	}
+
+	return protectorpb.NewBruteforceProtectorServiceClient(conn)
+}
 
 func CLI(args []string) int {
 	app := createApp()
@@ -75,10 +93,24 @@ func createAddAccessListCommand(listType ListType) *cli.Command {
 				return cli.Exit("missed networkCIDR arg", 10)
 			}
 
-			service := bpService{server: c.String("server")}
-			if err := service.addAccessList(c.Args().First(), listType); err != nil {
-				return cli.Exit(err, 9)
+			ctx, cancel := context.WithTimeout(context.Background(), clientTimeout)
+			defer cancel()
+			client := newClient(ctx, c.String("server"))
+			req := &protectorpb.AddAccessListRequest{NetworkCIDR: c.Args().First()}
+
+			var result *protectorpb.AddAccessListResponse
+			var err error
+			switch listType {
+			case Black:
+				result, err = client.AddBlackListItem(ctx, req)
+			case White:
+				result, err = client.AddWhiteListItem(ctx, req)
 			}
+
+			if err != nil {
+				return cli.Exit(err, 10)
+			}
+			log.Println("Done: ", result)
 			return nil
 		},
 	}
@@ -94,10 +126,24 @@ func createRemoveAccessListCommand(listType ListType) *cli.Command {
 				return cli.Exit("missed networkCIDR arg", 10)
 			}
 
-			service := bpService{server: c.String("server")}
-			if err := service.removeAccessList(c.Args().First(), listType); err != nil {
-				return cli.Exit(err, 9)
+			ctx, cancel := context.WithTimeout(context.Background(), clientTimeout)
+			defer cancel()
+			client := newClient(ctx, c.String("server"))
+			req := &protectorpb.RemoveAccessListRequest{NetworkCIDR: c.Args().First()}
+
+			var result *protectorpb.RemoveAccessListResponse
+			var err error
+			switch listType {
+			case Black:
+				result, err = client.RemoveBlackListItem(ctx, req)
+			case White:
+				result, err = client.RemoveWhiteListItem(ctx, req)
 			}
+
+			if err != nil {
+				return cli.Exit(err, 10)
+			}
+			log.Println("Done: ", result)
 			return nil
 		},
 	}
@@ -112,14 +158,26 @@ func createShowAccessListItemsCommand(listType ListType) *cli.Command {
 				return cli.Exit("unknown argument", 10)
 			}
 
-			service := bpService{server: c.String("server")}
-			items, err := service.getAccessListItems(listType)
+			ctx, cancel := context.WithTimeout(context.Background(), clientTimeout)
+			defer cancel()
+			client := newClient(ctx, c.String("server"))
+			req := &protectorpb.GetAccessListItemsRequest{}
+
+			var result *protectorpb.GetAccessListItemsResponse
+			var err error
+			switch listType {
+			case Black:
+				result, err = client.GetBlackListItems(ctx, req)
+			case White:
+				result, err = client.GetWhiteListItems(ctx, req)
+			}
+
 			if err != nil {
-				return cli.Exit(err, 9)
+				return cli.Exit(err, 10)
 			}
 
 			fmt.Printf("%s items:\n", listType)
-			for _, item := range items {
+			for _, item := range result.Items {
 				fmt.Printf("- %s\n", item)
 			}
 			return nil
@@ -136,11 +194,18 @@ func createResetLoginLimitCommand() *cli.Command {
 			if c.NArg() == 0 {
 				return cli.Exit("missed LOGIN arg", 10)
 			}
-			service := bpService{server: c.String("server")}
-			err := service.resetLoginLimit(c.Args().First())
+
+			ctx, cancel := context.WithTimeout(context.Background(), clientTimeout)
+			defer cancel()
+			client := newClient(ctx, c.String("server"))
+			req := &protectorpb.ResetLoginLimitRequest{Login: c.Args().First()}
+
+			result, err := client.ResetLogin(ctx, req)
+
 			if err != nil {
 				return cli.Exit(err, 9)
 			}
+			log.Println("Done: ", result)
 			return nil
 		},
 	}
@@ -155,11 +220,18 @@ func createResetIPLimitCommand() *cli.Command {
 			if c.NArg() == 0 {
 				return cli.Exit("missed IP arg", 10)
 			}
-			service := bpService{server: c.String("server")}
-			err := service.resetIPLimit(c.Args().First())
+
+			ctx, cancel := context.WithTimeout(context.Background(), clientTimeout)
+			defer cancel()
+			client := newClient(ctx, c.String("server"))
+			req := &protectorpb.ResetIPLimitRequest{Ip: c.Args().First()}
+
+			result, err := client.ResetIP(ctx, req)
+
 			if err != nil {
 				return cli.Exit(err, 9)
 			}
+			log.Println("Done: ", result)
 			return nil
 		},
 	}
