@@ -4,7 +4,15 @@
 - [ТЗ](docs/specification.md)
 
 ## Сборка и тестирование
-- TBD
+- `make run` - сборка и запуск докер образа с сервером
+- `make stop` - остановка докер образа
+- `make build` - сборка сервера и клиента
+- `make build-server` - сборка сервера
+- `make build-cli` - сборка клиента
+- `make lint` - запуск линтера
+- `make test` - запуск тестов
+- `make release` - сборка клиента, сервера, запуск тестов и линтера
+- `make generate` - генерация protobuf/grpc
 
 ## Команды bp-cli
 - TBD 

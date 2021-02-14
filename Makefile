@@ -15,9 +15,6 @@ test:
 
 	go test -cover ./internal/... | grep coverage
 
-deploy:
-	docker-compose -f build/docker-compose.yml up -d --build
-
 build-server:
 	go build -o ./bin/bp-server ./cmd/bp-server
 
