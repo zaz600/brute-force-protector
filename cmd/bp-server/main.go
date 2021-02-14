@@ -38,19 +38,19 @@ func createApp() *cli.App {
 			&cli.Int64Flag{
 				Name:    "n",
 				Value:   10,
-				Usage:   "login limit per minute",
+				Usage:   "logins limit per minute",
 				EnvVars: []string{"BP_LOGIN_LIMIT"},
 			},
 			&cli.Int64Flag{
 				Name:    "m",
 				Value:   100,
-				Usage:   "password limit per minute",
+				Usage:   "passwords limit per minute",
 				EnvVars: []string{"BP_PASSWORD_LIMIT"},
 			},
 			&cli.Int64Flag{
 				Name:    "k",
 				Value:   1000,
-				Usage:   "IP limit per minute",
+				Usage:   "IPs limit per minute",
 				EnvVars: []string{"BP_IP_LIMIT"},
 			},
 		},
