@@ -26,6 +26,9 @@ release: build test lint
 run:
 	docker-compose -f build/docker-compose.yml -p bruteforce-protector up -d --build
 
+run-log:
+	docker-compose -f build/docker-compose.yml -p bruteforce-protector up --build
+
 stop:
 	docker-compose -f build/docker-compose.yml -p bruteforce-protector down
 

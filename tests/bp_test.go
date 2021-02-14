@@ -29,7 +29,7 @@ func TestBruteforceProtectorServer_Connect(t *testing.T) {
 	require.NoError(t, err)
 }
 
-func TestBruteforceProtectorServer_AccessList(t *testing.T) {
+func TestBruteforceProtectorServer_AccessListOperations(t *testing.T) {
 	type test struct {
 		name      string
 		blackList bool
@@ -149,6 +149,7 @@ func TestBruteforceProtectorServer_Verify(t *testing.T) {
 		})
 	}
 }
+
 func TestBruteforceProtectorServer_ResetLimit(t *testing.T) {
 	type test struct {
 		name      string
@@ -207,6 +208,64 @@ func TestBruteforceProtectorServer_ResetLimit(t *testing.T) {
 			resp, err := verify(login, password, ip, client)
 			require.NoError(t, err)
 			require.True(t, resp.Ok)
+		})
+	}
+}
+
+func TestBruteforceProtectorServer_BlackList(t *testing.T) {
+	type test struct {
+		name      string
+		count     int
+		blacklist bool
+		whitelist bool
+	}
+	for _, tt := range [...]test{
+		{
+			name:      "blacklisted ip",
+			count:     2,
+			blacklist: true,
+		},
+		{
+			name:      "blacklisted and whitelisted ip",
+			count:     2,
+			blacklist: true,
+			whitelist: true,
+		},
+		{
+			name:      "whitelisted ip below ip limit",
+			count:     1001,
+			whitelist: true,
+		},
+	} {
+		t.Run(tt.name, func(t *testing.T) {
+			client, err := newClient()
+			require.NoError(t, err)
+
+			login := faker.Username()
+			password := faker.Password()
+			ip := faker.IPv4()
+			net := fmt.Sprintf("%s/24", ip)
+
+			if tt.blacklist {
+				_, err = addAccessList(net, true, client)
+				require.NoError(t, err)
+			}
+
+			if tt.whitelist {
+				_, err = addAccessList(net, false, client)
+				require.NoError(t, err)
+			}
+
+			for i := 0; i < tt.count; i++ {
+				resp, err := verify(login, password, ip, client)
+				require.NoError(t, err)
+
+				if tt.blacklist {
+					require.False(t, resp.Ok)
+				} else {
+					require.True(t, resp.Ok)
+				}
+			}
 		})
 	}
 }
