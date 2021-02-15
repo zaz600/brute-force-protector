@@ -3,6 +3,7 @@ package tests
 import (
 	"context"
 	"fmt"
+	"os"
 	"testing"
 
 	"github.com/bxcodec/faker/v3"
@@ -12,21 +13,22 @@ import (
 	protectorpb "github.com/zaz600/brute-force-protector/internal/grpc/api"
 )
 
-const ITEST_SERVER = "localhost:50051"
+const ITEST_SERVER = "bp-server:50051"
+
+// const ITEST_SERVER = "localhost:50051"
 
 func newClient() (protectorpb.BruteforceProtectorServiceClient, error) {
-	conn, err := grpc.Dial(ITEST_SERVER, grpc.WithInsecure())
+	bpServer := ITEST_SERVER
+	if os.Getenv("BP_ITEST_DOCKER") == "" {
+		bpServer = "localhost:50051"
+	}
+	conn, err := grpc.Dial(bpServer, grpc.WithInsecure())
 
 	if err != nil {
 		return nil, err
 	}
 
 	return protectorpb.NewBruteforceProtectorServiceClient(conn), nil
-}
-
-func TestBruteforceProtectorServer_Connect(t *testing.T) {
-	_, err := newClient()
-	require.NoError(t, err)
 }
 
 func TestBruteforceProtectorServer_AccessListOperations(t *testing.T) {

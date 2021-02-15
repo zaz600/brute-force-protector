@@ -36,5 +36,13 @@ generate:
 	protoc --go_out=internal/grpc/ --go-grpc_out=internal/grpc/ api/api.proto
 
 itest:
+	docker-compose -f build/docker-compose-itest.yml -p bruteforce-protector-itest up --build -d
+	docker-compose -f build/docker-compose-itest.yml -p bruteforce-protector-itest logs --follow itests
+	docker-compose -f build/docker-compose-itest.yml -p bruteforce-protector-itest down
+
+itest-stop:
+	docker-compose -f build/docker-compose-itest.yml -p bruteforce-protector-itest down
+
+itest-local:
 	go test -v ./tests
 

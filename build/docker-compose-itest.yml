@@ -6,8 +6,8 @@ services:
     build:
       context: ../
       dockerfile: build/Dockerfile
-    ports:
-      - "50051:50051"
+#    ports:
+#      - "50051:50051"
     environment:
       - BP_LOGIN_LIMIT=10
       - BP_PASSWORD_LIMIT=100
@@ -23,8 +23,22 @@ services:
   redis:
     container_name: redis-server
     image: "redis:latest"
-    ports:
-      - "16379:6379"
+#    ports:
+#      - "16379:6379"
+    networks:
+      - bp_net
+
+  itests:
+    container_name: itests
+    build:
+      context: ../
+      dockerfile: tests/Dockerfile
+    command: go test -v ./tests
+    environment:
+      - BP_ITEST_DOCKER=true
+    depends_on:
+      - bp-server
+      - redis
     networks:
       - bp_net
 
