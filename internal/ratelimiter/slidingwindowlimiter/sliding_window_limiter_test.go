@@ -12,6 +12,8 @@ import (
 )
 
 func TestSlidingWindowRateLimiter_LimitReached(t *testing.T) {
+	defer goleak.VerifyNone(t)
+
 	tests := []struct {
 		name            string
 		count           int
@@ -30,7 +32,8 @@ func TestSlidingWindowRateLimiter_LimitReached(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			r := slidingwindowlimiter.NewSlidingWindowRateLimiter(context.Background(), time.Minute, 10)
+			ctx, cancel := context.WithCancel(context.Background())
+			r := slidingwindowlimiter.NewSlidingWindowRateLimiter(ctx, time.Minute, 10)
 			for i := 0; i < tt.count; i++ {
 				result := r.LimitReached("foo")
 				if i == tt.count-1 {
@@ -39,12 +42,14 @@ func TestSlidingWindowRateLimiter_LimitReached(t *testing.T) {
 					require.False(t, result)
 				}
 			}
+			cancel()
 		})
 	}
 }
 
 func TestSlidingWindowRateLimiter_Reset(t *testing.T) {
-	r := slidingwindowlimiter.NewSlidingWindowRateLimiter(context.Background(), time.Minute, 10)
+	ctx, cancel := context.WithCancel(context.Background())
+	r := slidingwindowlimiter.NewSlidingWindowRateLimiter(ctx, time.Minute, 10)
 	for i := 0; i < 11; i++ {
 		r.LimitReached("foo")
 	}
@@ -53,13 +58,6 @@ func TestSlidingWindowRateLimiter_Reset(t *testing.T) {
 	r.Reset("foo")
 	result = r.LimitReached("foo")
 	require.False(t, result)
-}
-
-func TestSlidingWindowRateLimiter_CancelGoro(t *testing.T) {
-	defer goleak.VerifyNone(t)
-	ctx, cancel := context.WithCancel(context.Background())
-	r := slidingwindowlimiter.NewSlidingWindowRateLimiter(ctx, time.Minute, 1000000)
-	r.LimitReached("foo")
 	cancel()
 }
 
