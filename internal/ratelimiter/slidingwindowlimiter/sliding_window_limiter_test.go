@@ -12,8 +12,6 @@ import (
 )
 
 func TestSlidingWindowRateLimiter_LimitReached(t *testing.T) {
-	defer goleak.VerifyNone(t)
-
 	tests := []struct {
 		name            string
 		count           int
