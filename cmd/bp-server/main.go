@@ -63,7 +63,10 @@ func createApp() *cli.App {
 			},
 		},
 		Action: func(c *cli.Context) error {
-			redisClient, err := getRedisClient(c.String("redis"))
+			ctx, cancel := context.WithCancel(context.Background())
+			defer cancel()
+
+			redisClient, err := getRedisClient(ctx, c.String("redis"))
 			if err != nil {
 				return cli.Exit(fmt.Sprintf("can't connect to redis: %v", err), 1)
 			}
@@ -85,7 +88,7 @@ func createApp() *cli.App {
 	return app
 }
 
-func getRedisClient(redisHost string) (*redis.Client, error) {
+func getRedisClient(ctx context.Context, redisHost string) (*redis.Client, error) {
 	if redisHost == "" {
 		return nil, nil
 	}
@@ -95,6 +98,7 @@ func getRedisClient(redisHost string) (*redis.Client, error) {
 		Password: "",
 		DB:       0,
 	})
+	redisClient = redisClient.WithContext(ctx)
 
 	if err := redisClient.Ping(context.Background()).Err(); err != nil {
 		return nil, fmt.Errorf("can't connect to redis: %w", err)
