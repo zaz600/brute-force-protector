@@ -6,11 +6,14 @@ import (
 	"time"
 
 	"github.com/stretchr/testify/require"
+	"go.uber.org/goleak"
 
 	"github.com/zaz600/brute-force-protector/internal/ratelimiter/slidingwindowlimiter"
 )
 
 func TestSlidingWindowRateLimiter_LimitReached(t *testing.T) {
+	defer goleak.VerifyNone(t)
+
 	tests := []struct {
 		name            string
 		count           int
@@ -52,6 +55,14 @@ func TestSlidingWindowRateLimiter_Reset(t *testing.T) {
 	r.Reset("foo")
 	result = r.LimitReached("foo")
 	require.False(t, result)
+}
+
+func TestSlidingWindowRateLimiter_CancelGoro(t *testing.T) {
+	defer goleak.VerifyNone(t)
+	ctx, cancel := context.WithCancel(context.Background())
+	r := slidingwindowlimiter.NewSlidingWindowRateLimiter(ctx, time.Minute, 1000000)
+	r.LimitReached("foo")
+	cancel()
 }
 
 func BenchmarkSlidingWindowRateLimiter_LimitReached(b *testing.B) {

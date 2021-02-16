@@ -9,6 +9,7 @@ require (
 	github.com/golang/protobuf v1.4.3
 	github.com/stretchr/testify v1.7.0
 	github.com/urfave/cli/v2 v2.3.0
+	go.uber.org/goleak v1.1.10 // indirect
 	go.uber.org/zap v1.16.0
 	golang.org/x/sys v0.0.0-20210124154548-22da62e12c0c // indirect
 	golang.org/x/text v0.3.5 // indirect
