@@ -11,15 +11,14 @@ import (
 )
 
 type BruteForceProtector struct {
-	/*
-	   	не более loginLimit = 10 попыток в минуту для данного логина.
-	       не более M = 100 попыток в минуту для данного пароля (защита от обратного brute-force).
-	       не более K = 1000 попыток в минуту для данного IP (число большое, т.к. NAT).
-	*/
-	// TODO ctx!
+	ctx context.Context
 
 	blackList accesslist.AccessList
 	whiteList accesslist.AccessList
+
+	loginLimit    int64
+	passwordLimit int64
+	ipLimit       int64
 
 	loginLimiter    ratelimiter.RateLimiter
 	passwordLimiter ratelimiter.RateLimiter
@@ -31,21 +30,32 @@ func NewBruteForceProtector(opts ...ProtectorOption) *BruteForceProtector {
 	const (
 		defaultMaxLoginAttempts    = 10
 		defaultMaxPasswordAttempts = 100
-		defaultMaxIPAttempts       = 100
+		defaultMaxIPAttempts       = 1000
 	)
 
 	p := &BruteForceProtector{
-		blackList: memoryaccesslist.NewMemoryAccessList(),
-		whiteList: memoryaccesslist.NewMemoryAccessList(),
-
-		loginLimiter:    slidingwindowlimiter.NewSlidingWindowRateLimiter(time.Minute, defaultMaxLoginAttempts),
-		passwordLimiter: slidingwindowlimiter.NewSlidingWindowRateLimiter(time.Minute, defaultMaxPasswordAttempts),
-		ipLimiter:       slidingwindowlimiter.NewSlidingWindowRateLimiter(time.Minute, defaultMaxIPAttempts),
+		ctx:           context.Background(),
+		loginLimit:    defaultMaxLoginAttempts,
+		passwordLimit: defaultMaxPasswordAttempts,
+		ipLimit:       defaultMaxIPAttempts,
 	}
 
 	for _, option := range opts {
 		option(p)
 	}
+
+	p.loginLimiter = slidingwindowlimiter.NewSlidingWindowRateLimiter(p.ctx, time.Minute, p.loginLimit)
+	p.passwordLimiter = slidingwindowlimiter.NewSlidingWindowRateLimiter(p.ctx, time.Minute, p.passwordLimit)
+	p.ipLimiter = slidingwindowlimiter.NewSlidingWindowRateLimiter(p.ctx, time.Minute, p.ipLimit)
+
+	if p.blackList == nil {
+		p.blackList = memoryaccesslist.NewMemoryAccessList()
+	}
+
+	if p.whiteList == nil {
+		p.whiteList = memoryaccesslist.NewMemoryAccessList()
+	}
+
 	return p
 }
 

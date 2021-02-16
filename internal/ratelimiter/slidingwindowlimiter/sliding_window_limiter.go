@@ -1,6 +1,7 @@
 package slidingwindowlimiter
 
 import (
+	"context"
 	"sync"
 	"time"
 
@@ -8,8 +9,9 @@ import (
 )
 
 type SlidingWindowRateLimiter struct {
+	ctx context.Context
 	*sync.RWMutex
-	db     map[string][]int64
+	db     map[string]*windowData
 	window time.Duration
 	limit  int64
 }
@@ -25,40 +27,46 @@ func (r *SlidingWindowRateLimiter) LimitReached(key string) bool {
 	defer r.Unlock()
 
 	if _, ok := r.db[key]; !ok {
-		r.db[key] = make([]int64, 0, r.limit)
+		r.db[key] = newWindowData(r.limit, r.window)
 	}
-	current := r.getCountInWindow(key)
-	// log.Println(current, len(r.db[key]), r.db[key])
-	if current < r.limit {
-		r.db[key] = append(r.db[key], time.Now().UnixNano())
+
+	currentSize := r.db[key].currentSize()
+	// log.Println(current, len(r.db[key].timestamps), r.db[key].timestamps)
+	if currentSize < r.limit {
+		r.db[key].add()
 		return false
 	}
 	return true
 }
 
-func (r *SlidingWindowRateLimiter) getCountInWindow(key string) int64 {
-	windowLeft := time.Now().UnixNano() - r.window.Nanoseconds()
-
-	var firstLeftEl = -1
-	for i, value := range r.db[key] {
-		if value >= windowLeft {
-			firstLeftEl = i
-			break
+func (r *SlidingWindowRateLimiter) cleanup() {
+	r.Lock()
+	defer r.Unlock()
+	for k, v := range r.db {
+		if v.currentSize() == 0 && time.Since(v.lastAccessTime) > 1*time.Minute {
+			delete(r.db, k)
 		}
 	}
-	// TODO унести в отдельную
-	// TODO ключи по которым давно не было запроса могут зависать их надо удалять
-	if firstLeftEl > 0 {
-		r.db[key] = r.db[key][firstLeftEl : len(r.db[key])-1]
-	}
-	return int64(len(r.db[key]))
 }
 
-func NewSlidingWindowRateLimiter(window time.Duration, limit int64) ratelimiter.RateLimiter {
-	return &SlidingWindowRateLimiter{
+func NewSlidingWindowRateLimiter(ctx context.Context, window time.Duration, limit int64) ratelimiter.RateLimiter {
+	limiter := &SlidingWindowRateLimiter{
+		ctx:     ctx,
 		RWMutex: &sync.RWMutex{},
-		db:      make(map[string][]int64),
+		db:      make(map[string]*windowData),
 		window:  window,
 		limit:   limit,
 	}
+
+	go func() {
+		for {
+			select {
+			case <-time.After(1 * time.Minute):
+				limiter.cleanup()
+			case <-ctx.Done():
+				return
+			}
+		}
+	}()
+	return limiter
 }

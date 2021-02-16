@@ -1,39 +1,45 @@
 package bruteforceprotector
 
 import (
-	"time"
+	"context"
 
-	"github.com/go-redis/redis/v8"
-
-	"github.com/zaz600/brute-force-protector/internal/accesslist/redisaccesslist"
-	"github.com/zaz600/brute-force-protector/internal/ratelimiter/slidingwindowlimiter"
+	"github.com/zaz600/brute-force-protector/internal/accesslist"
 )
 
 type ProtectorOption func(*BruteForceProtector)
 
 func WithLoginLimit(maxCount int64) ProtectorOption {
 	return func(p *BruteForceProtector) {
-		p.loginLimiter = slidingwindowlimiter.NewSlidingWindowRateLimiter(time.Minute, maxCount)
+		p.loginLimit = maxCount
 	}
 }
 
 func WithPasswordLimit(maxCount int64) ProtectorOption {
 	return func(p *BruteForceProtector) {
-		p.passwordLimiter = slidingwindowlimiter.NewSlidingWindowRateLimiter(time.Minute, maxCount)
+		p.passwordLimit = maxCount
 	}
 }
 
 func WithIPLimit(maxCount int64) ProtectorOption {
 	return func(p *BruteForceProtector) {
-		p.ipLimiter = slidingwindowlimiter.NewSlidingWindowRateLimiter(time.Minute, maxCount)
+		p.ipLimit = maxCount
 	}
 }
 
-func WithRedis(redisClient *redis.Client) ProtectorOption {
+func WithContext(ctx context.Context) ProtectorOption {
 	return func(p *BruteForceProtector) {
-		if redisClient != nil {
-			p.blackList = redisaccesslist.NewRedisAccessList("blacklist", redisClient)
-			p.whiteList = redisaccesslist.NewRedisAccessList("whitelist", redisClient)
-		}
+		p.ctx = ctx
+	}
+}
+
+func WithBlackList(l accesslist.AccessList) ProtectorOption {
+	return func(p *BruteForceProtector) {
+		p.blackList = l
+	}
+}
+
+func WithWhiteList(l accesslist.AccessList) ProtectorOption {
+	return func(p *BruteForceProtector) {
+		p.whiteList = l
 	}
 }

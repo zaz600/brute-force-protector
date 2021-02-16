@@ -1,6 +1,7 @@
 package slidingwindowlimiter_test
 
 import (
+	"context"
 	"testing"
 	"time"
 
@@ -28,7 +29,7 @@ func TestSlidingWindowRateLimiter_LimitReached(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			r := slidingwindowlimiter.NewSlidingWindowRateLimiter(time.Minute, 10)
+			r := slidingwindowlimiter.NewSlidingWindowRateLimiter(context.Background(), time.Minute, 10)
 			for i := 0; i < tt.count; i++ {
 				result := r.LimitReached("foo")
 				if i == tt.count-1 {
@@ -42,7 +43,7 @@ func TestSlidingWindowRateLimiter_LimitReached(t *testing.T) {
 }
 
 func TestSlidingWindowRateLimiter_Reset(t *testing.T) {
-	r := slidingwindowlimiter.NewSlidingWindowRateLimiter(time.Minute, 10)
+	r := slidingwindowlimiter.NewSlidingWindowRateLimiter(context.Background(), time.Minute, 10)
 	for i := 0; i < 11; i++ {
 		r.LimitReached("foo")
 	}
@@ -54,7 +55,7 @@ func TestSlidingWindowRateLimiter_Reset(t *testing.T) {
 }
 
 func BenchmarkSlidingWindowRateLimiter_LimitReached(b *testing.B) {
-	r := slidingwindowlimiter.NewSlidingWindowRateLimiter(time.Minute, 1000000)
+	r := slidingwindowlimiter.NewSlidingWindowRateLimiter(context.Background(), time.Minute, 1000000)
 	for i := 0; i < b.N; i++ {
 		r.LimitReached("foo")
 	}

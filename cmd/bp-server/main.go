@@ -3,11 +3,13 @@ package main
 import (
 	"context"
 	"fmt"
+	"log"
 	"os"
 
 	"github.com/go-redis/redis/v8"
 	"github.com/urfave/cli/v2"
 
+	"github.com/zaz600/brute-force-protector/internal/accesslist/redisaccesslist"
 	bp "github.com/zaz600/brute-force-protector/internal/bruteforceprotector"
 	"github.com/zaz600/brute-force-protector/internal/grpc"
 )
@@ -62,37 +64,42 @@ func createApp() *cli.App {
 				EnvVars: []string{"BP_REDIS_HOST"},
 			},
 		},
-		Action: func(c *cli.Context) error {
-			ctx, cancel := context.WithCancel(context.Background())
-			defer cancel()
-
-			redisClient, err := getRedisClient(ctx, c.String("redis"))
-			if err != nil {
-				return cli.Exit(fmt.Sprintf("can't connect to redis: %v", err), 1)
-			}
-
-			protector := bp.NewBruteForceProtector(
-				bp.WithLoginLimit(c.Int64("n")),
-				bp.WithPasswordLimit(c.Int64("m")),
-				bp.WithIPLimit(c.Int64("k")),
-				bp.WithRedis(redisClient),
-			)
-			bpServer := grpc.NewBPServer(protector)
-			err = bpServer.ListenAndServe(c.String("listen"))
-			if err != nil {
-				return cli.Exit(fmt.Sprintf("Can't start server: %v", err), 1)
-			}
-			return nil
-		},
+		Action: appAction,
 	}
 	return app
 }
 
-func getRedisClient(ctx context.Context, redisHost string) (*redis.Client, error) {
-	if redisHost == "" {
-		return nil, nil
+func appAction(c *cli.Context) error {
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	opts := []bp.ProtectorOption{
+		bp.WithContext(ctx),
+		bp.WithLoginLimit(c.Int64("n")),
+		bp.WithPasswordLimit(c.Int64("m")),
+		bp.WithIPLimit(c.Int64("k")),
 	}
 
+	if c.String("redis") != "" {
+		redisClient, err := getRedisClient(ctx, c.String("redis"))
+		if err != nil {
+			return cli.Exit(fmt.Sprintf("can't connect to redis: %v", err), 1)
+		}
+
+		log.Println("use redis as access lists storage")
+		opts = append(opts, bp.WithBlackList(redisaccesslist.NewRedisAccessList("blacklist", redisClient)))
+		opts = append(opts, bp.WithWhiteList(redisaccesslist.NewRedisAccessList("whitelist", redisClient)))
+	}
+
+	bpServer := grpc.NewBPServer(bp.NewBruteForceProtector(opts...))
+	err := bpServer.ListenAndServe(c.String("listen"))
+	if err != nil {
+		return cli.Exit(fmt.Sprintf("Can't start server: %v", err), 1)
+	}
+	return nil
+}
+
+func getRedisClient(ctx context.Context, redisHost string) (*redis.Client, error) {
 	redisClient := redis.NewClient(&redis.Options{
 		Addr:     redisHost,
 		Password: "",
