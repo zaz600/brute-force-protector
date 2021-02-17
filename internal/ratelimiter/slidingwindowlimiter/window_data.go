@@ -9,15 +9,19 @@ type windowData struct {
 	lastAccessTime time.Time
 }
 
+// add добавляет текущий таймстамп в коллекцию
 func (s *windowData) add() {
 	s.timestamps = append(s.timestamps, time.Now().UnixNano())
 	s.lastAccessTime = time.Now()
 }
 
+// shrinkLeft удаляет элементы из слайса левее заданного.
+// используется для удаления таймстампов выпавших из окна
 func (s *windowData) shrinkLeft(idx int) {
 	s.timestamps = s.timestamps[idx : len(s.timestamps)-1]
 }
 
+// leftBorder определяем первый слева элемент входящий в окно
 func (s *windowData) leftBorder() int {
 	windowLeft := time.Now().UnixNano() - s.window.Nanoseconds()
 	for i, value := range s.timestamps {
@@ -28,6 +32,8 @@ func (s *windowData) leftBorder() int {
 	return 0
 }
 
+// currentSize количество элементов внутри текущего окна
+// Заодно удаляет элементы выпавшие из окна
 func (s *windowData) currentSize() int64 {
 	if leftBorder := s.leftBorder(); leftBorder > 0 {
 		s.shrinkLeft(leftBorder)

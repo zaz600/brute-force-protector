@@ -8,6 +8,9 @@ import (
 	"github.com/zaz600/brute-force-protector/internal/ratelimiter"
 )
 
+/**
+SlidingWindowRateLimiter реализует алгоритм скользящего окна
+*/
 type SlidingWindowRateLimiter struct {
 	ctx context.Context
 	*sync.RWMutex
@@ -16,12 +19,17 @@ type SlidingWindowRateLimiter struct {
 	limit  int64
 }
 
+// Reset сброс лимита для заданного ключа
 func (r *SlidingWindowRateLimiter) Reset(key string) {
 	r.Lock()
 	defer r.Unlock()
 	delete(r.db, key)
 }
 
+// LimitReached возвращает превышен лимит или нет.
+// При проверке ключа добавляем текущий timestamp в слайс,
+// если там еще есть место. Просматриваем текущее количество тайстампов,
+// которые укладываются в окно, размер которого [now-размер окна; now]
 func (r *SlidingWindowRateLimiter) LimitReached(key string) bool {
 	r.Lock()
 	defer r.Unlock()
@@ -39,6 +47,7 @@ func (r *SlidingWindowRateLimiter) LimitReached(key string) bool {
 	return true
 }
 
+// cleanup удаляет ключи, окно которых пустое и к которым не обращались дольше минуты
 func (r *SlidingWindowRateLimiter) cleanup() {
 	r.Lock()
 	defer r.Unlock()
