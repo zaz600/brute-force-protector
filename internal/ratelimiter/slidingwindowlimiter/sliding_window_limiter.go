@@ -9,7 +9,7 @@ import (
 )
 
 /**
-SlidingWindowRateLimiter реализует алгоритм скользящего окна
+SlidingWindowRateLimiter реализует алгоритм скользящего окна.
 */
 type SlidingWindowRateLimiter struct {
 	ctx context.Context
@@ -19,7 +19,7 @@ type SlidingWindowRateLimiter struct {
 	limit  int64
 }
 
-// Reset сброс лимита для заданного ключа
+// Reset сброс лимита для заданного ключа.
 func (r *SlidingWindowRateLimiter) Reset(key string) {
 	r.Lock()
 	defer r.Unlock()
@@ -29,7 +29,7 @@ func (r *SlidingWindowRateLimiter) Reset(key string) {
 // LimitReached возвращает превышен лимит или нет.
 // При проверке ключа добавляем текущий timestamp в слайс,
 // если там еще есть место. Просматриваем текущее количество тайстампов,
-// которые укладываются в окно, размер которого [now-размер окна; now]
+// которые укладываются в окно, размер которого [now-размер окна; now].
 func (r *SlidingWindowRateLimiter) LimitReached(key string) bool {
 	r.Lock()
 	defer r.Unlock()
@@ -47,7 +47,7 @@ func (r *SlidingWindowRateLimiter) LimitReached(key string) bool {
 	return true
 }
 
-// cleanup удаляет ключи, окно которых пустое и к которым не обращались дольше минуты
+// cleanup удаляет ключи, окно которых пустое и к которым не обращались дольше минуты.
 func (r *SlidingWindowRateLimiter) cleanup() {
 	r.Lock()
 	defer r.Unlock()

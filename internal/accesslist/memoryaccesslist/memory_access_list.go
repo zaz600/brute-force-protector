@@ -13,13 +13,13 @@ type ListValue struct {
 	IPNet *net.IPNet
 }
 
-// MemoryAccessList реализация списка доступа с хранением элементов в памяти
+// MemoryAccessList реализация списка доступа с хранением элементов в памяти.
 type MemoryAccessList struct {
 	*sync.RWMutex
 	db map[string]ListValue
 }
 
-// Add добавление подсети в список доступа
+// Add добавление подсети в список доступа.
 func (m *MemoryAccessList) Add(networkCIDR string) error {
 	m.Lock()
 	defer m.Unlock()
@@ -40,7 +40,7 @@ func (m *MemoryAccessList) Add(networkCIDR string) error {
 	return nil
 }
 
-// Remove удаление подсети из списка доступа
+// Remove удаление подсети из списка доступа.
 func (m *MemoryAccessList) Remove(networkCIDR string) error {
 	m.Lock()
 	defer m.Unlock()
@@ -48,14 +48,14 @@ func (m *MemoryAccessList) Remove(networkCIDR string) error {
 	return nil
 }
 
-// Len количество элементов в списке доступа
+// Len количество элементов в списке доступа.
 func (m *MemoryAccessList) Len() int {
 	m.RLock()
 	defer m.RUnlock()
 	return len(m.db)
 }
 
-// Exists проверка, что подсеть есть в списке доступа
+// Exists проверка, что подсеть есть в списке доступа.
 func (m *MemoryAccessList) Exists(networkCIDR string) bool {
 	m.RLock()
 	defer m.RUnlock()
@@ -65,7 +65,7 @@ func (m *MemoryAccessList) Exists(networkCIDR string) bool {
 	return false
 }
 
-// IsInList проверяет, что IP входит в одну из подсетей списка доступа
+// IsInList проверяет, что IP входит в одну из подсетей списка доступа.
 func (m *MemoryAccessList) IsInList(ip string) bool {
 	m.RLock()
 	defer m.RUnlock()
@@ -86,7 +86,7 @@ func (m *MemoryAccessList) isInList(ip net.IP) bool {
 	return found
 }
 
-// GetAll возвращает все элементы списка доступа
+// GetAll возвращает все элементы списка доступа.
 func (m *MemoryAccessList) GetAll() []string {
 	m.RLock()
 	defer m.RUnlock()
@@ -97,7 +97,7 @@ func (m *MemoryAccessList) GetAll() []string {
 	return result
 }
 
-// NewMemoryAccessList создает список доступа с хранением элементов в памяти
+// NewMemoryAccessList создает список доступа с хранением элементов в памяти.
 func NewMemoryAccessList() accesslist.AccessList {
 	return &MemoryAccessList{
 		RWMutex: &sync.RWMutex{},

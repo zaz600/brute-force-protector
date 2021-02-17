@@ -8,13 +8,13 @@ import (
 	"github.com/go-redis/redis/v8"
 )
 
-// RedisAccessList список доступа с хранением элементов в redis
+// RedisAccessList список доступа с хранением элементов в redis.
 type RedisAccessList struct {
 	redisClient *redis.Client
 	hashName    string
 }
 
-// NewRedisAccessList возвращает список доступа с хранением элементов в redis
+// NewRedisAccessList возвращает список доступа с хранением элементов в redis.
 func NewRedisAccessList(hashName string, redisClient *redis.Client) *RedisAccessList {
 	return &RedisAccessList{
 		redisClient: redisClient,
@@ -22,7 +22,7 @@ func NewRedisAccessList(hashName string, redisClient *redis.Client) *RedisAccess
 	}
 }
 
-// Add добавление подсети в список доступа
+// Add добавление подсети в список доступа.
 func (r *RedisAccessList) Add(networkCIDR string) error {
 	err := r.redisClient.HSet(context.Background(), r.hashName, networkCIDR, "").Err()
 	if err != nil {
@@ -31,7 +31,7 @@ func (r *RedisAccessList) Add(networkCIDR string) error {
 	return nil
 }
 
-// Remove удаление подсети из списка доступа
+// Remove удаление подсети из списка доступа.
 func (r *RedisAccessList) Remove(networkCIDR string) error {
 	err := r.redisClient.HDel(context.Background(), r.hashName, networkCIDR).Err()
 	if err != nil {
@@ -40,7 +40,7 @@ func (r *RedisAccessList) Remove(networkCIDR string) error {
 	return nil
 }
 
-// Exists проверка, что подсеть есть в списке доступа
+// Exists проверка, что подсеть есть в списке доступа.
 func (r *RedisAccessList) Exists(networkCIDR string) bool {
 	ok, err := r.redisClient.HExists(context.Background(), r.hashName, networkCIDR).Result()
 	if err != nil || !ok {
@@ -49,7 +49,7 @@ func (r *RedisAccessList) Exists(networkCIDR string) bool {
 	return true
 }
 
-// IsInList проверяет, что IP входит в одну из подсетей списка доступа
+// IsInList проверяет, что IP входит в одну из подсетей списка доступа.
 func (r *RedisAccessList) IsInList(ip string) bool {
 	items := r.GetAll()
 	return r.isInList(net.ParseIP(ip), items)
@@ -74,7 +74,7 @@ func (r *RedisAccessList) isInList(ip net.IP, items []string) bool {
 	return false
 }
 
-// Len количество элементов в списке доступа
+// Len количество элементов в списке доступа.
 func (r *RedisAccessList) Len() int {
 	size, err := r.redisClient.HLen(context.Background(), r.hashName).Result()
 	if err != nil {
@@ -83,7 +83,7 @@ func (r *RedisAccessList) Len() int {
 	return int(size)
 }
 
-// GetAll возвращает все элементы списка доступа
+// GetAll возвращает все элементы списка доступа.
 func (r *RedisAccessList) GetAll() []string {
 	items, err := r.redisClient.HGetAll(context.Background(), r.hashName).Result()
 

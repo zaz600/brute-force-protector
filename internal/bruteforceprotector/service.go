@@ -60,7 +60,7 @@ func NewBruteForceProtector(opts ...ProtectorOption) *BruteForceProtector {
 
 // Verify проверка не превышен ли лимит запросов.
 // Если ip в белом списке, всегда возвращает true (не превышен)
-// Если ip в черном списке, всегда возвращает false (превышен)
+// Если ip в черном списке, всегда возвращает false (превышен).
 func (b *BruteForceProtector) Verify(ctx context.Context, login string, password string, ip string) bool {
 	if inList := b.blackList.IsInList(ip); inList {
 		return false
@@ -75,7 +75,7 @@ func (b *BruteForceProtector) Verify(ctx context.Context, login string, password
 
 // limitReached проверяет что лимит по логину, паролю или ip превышен
 // true - один или более из лимитов превышен
-// false - ни один из лимитов не превышен
+// false - ни один из лимитов не превышен.
 func (b *BruteForceProtector) limitReached(login string, password string, ip string) bool {
 	loginCh := make(chan bool)
 	passwordCh := make(chan bool)
@@ -100,42 +100,42 @@ func (b *BruteForceProtector) limitReached(login string, password string, ip str
 	return loginLimitReached || passwordLimitReached || ipLimitReached
 }
 
-// ResetLogin сбрасывает лимит для логина
+// ResetLogin сбрасывает лимит для логина.
 func (b *BruteForceProtector) ResetLogin(ctx context.Context, login string) {
 	b.loginLimiter.Reset(login)
 }
 
-// ResetIP сбрасывает лимит для IP
+// ResetIP сбрасывает лимит для IP.
 func (b *BruteForceProtector) ResetIP(ctx context.Context, ip string) {
 	b.ipLimiter.Reset(ip)
 }
 
-// AddBlackList добавляет подсеть в черный список
+// AddBlackList добавляет подсеть в черный список.
 func (b *BruteForceProtector) AddBlackList(ctx context.Context, networkCIDR string) error {
 	return b.blackList.Add(networkCIDR)
 }
 
-// RemoveBlackList удаляет подсеть из черного списка
+// RemoveBlackList удаляет подсеть из черного списка.
 func (b *BruteForceProtector) RemoveBlackList(ctx context.Context, networkCIDR string) error {
 	return b.blackList.Remove(networkCIDR)
 }
 
-// BlackListItems возвращает все элементы в черном листе
+// BlackListItems возвращает все элементы в черном листе.
 func (b *BruteForceProtector) BlackListItems(ctx context.Context) []string {
 	return b.blackList.GetAll()
 }
 
-// AddWhiteList добавляет подсеть в белый список
+// AddWhiteList добавляет подсеть в белый список.
 func (b *BruteForceProtector) AddWhiteList(ctx context.Context, networkCIDR string) error {
 	return b.whiteList.Add(networkCIDR)
 }
 
-// RemoveWhiteList удаляет подсеть из белого списка
+// RemoveWhiteList удаляет подсеть из белого списка.
 func (b *BruteForceProtector) RemoveWhiteList(ctx context.Context, networkCIDR string) error {
 	return b.whiteList.Remove(networkCIDR)
 }
 
-// WhiteListItems возвращает все элементы в белом списке
+// WhiteListItems возвращает все элементы в белом списке.
 func (b *BruteForceProtector) WhiteListItems(ctx context.Context) []string {
 	return b.whiteList.GetAll()
 }
