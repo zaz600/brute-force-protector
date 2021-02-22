@@ -24,7 +24,7 @@
 - Запустить `make itest`
 
 ## bp-cli
-`bp-cli` - CLI клиент для Bruteforce Protector. 
+`bp-cli` - CLI для Bruteforce Protector. 
 
 Адрес сервера (опционально) указывается при помощи ключа `-server 127.0.0.1:50051`, 
 который можно добавить к командам.
