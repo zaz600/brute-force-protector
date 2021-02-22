@@ -4,8 +4,6 @@ import (
 	"fmt"
 	"net"
 	"sync"
-
-	"github.com/zaz600/brute-force-protector/internal/accesslist"
 )
 
 type ListValue struct {
@@ -98,7 +96,7 @@ func (m *MemoryAccessList) GetAll() []string {
 }
 
 // NewMemoryAccessList создает список доступа с хранением элементов в памяти.
-func NewMemoryAccessList() accesslist.AccessList {
+func NewMemoryAccessList() *MemoryAccessList {
 	return &MemoryAccessList{
 		RWMutex: &sync.RWMutex{},
 		db:      make(map[string]ListValue),

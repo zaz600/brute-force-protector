@@ -5,9 +5,6 @@ import (
 	"fmt"
 	"log"
 	"net"
-	"os"
-	"os/signal"
-	"syscall"
 
 	"google.golang.org/grpc"
 
@@ -17,31 +14,30 @@ import (
 
 type BPServer struct {
 	protectorpb.UnimplementedBruteforceProtectorServiceServer
-	bp *bruteforceprotector.BruteForceProtector
+	bp         *bruteforceprotector.BruteForceProtector
+	grpcServer *grpc.Server
 }
 
 func NewBPServer(bp *bruteforceprotector.BruteForceProtector) *BPServer {
-	return &BPServer{bp: bp}
+	return &BPServer{
+		bp:         bp,
+		grpcServer: grpc.NewServer(),
+	}
+}
+
+func (b *BPServer) GracefulStop() {
+	b.grpcServer.GracefulStop()
 }
 
 func (b *BPServer) ListenAndServe(addr string) error {
-	grpcServer := grpc.NewServer()
-	go func() {
-		termCh := make(chan os.Signal, 1)
-		signal.Notify(termCh, os.Interrupt, syscall.SIGINT)
-		<-termCh
-		log.Println("Shutdown...")
-		grpcServer.GracefulStop()
-	}()
-
 	listener, err := net.Listen("tcp", addr)
 	if err != nil {
 		return err
 	}
 	log.Println("start BP Server on", addr)
 
-	protectorpb.RegisterBruteforceProtectorServiceServer(grpcServer, b)
-	return grpcServer.Serve(listener)
+	protectorpb.RegisterBruteforceProtectorServiceServer(b.grpcServer, b)
+	return b.grpcServer.Serve(listener)
 }
 
 func (b *BPServer) Verify(ctx context.Context, req *protectorpb.VerifyRequest) (*protectorpb.VerifyResponse, error) {

@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"os/signal"
+	"syscall"
 
 	"github.com/go-redis/redis/v8"
 	"github.com/urfave/cli/v2"
@@ -87,6 +89,13 @@ func createApp() *cli.App { // nolint
 			}
 
 			bpServer := grpc.NewBPServer(bp.NewBruteForceProtector(opts...))
+			go func() {
+				termCh := make(chan os.Signal, 1)
+				signal.Notify(termCh, os.Interrupt, syscall.SIGINT)
+				<-termCh
+				log.Println("Shutdown...")
+				bpServer.GracefulStop()
+			}()
 			err := bpServer.ListenAndServe(c.String("listen"))
 			if err != nil {
 				return cli.Exit(fmt.Sprintf("Can't start server: %v", err), 1)
