@@ -1,4 +1,6 @@
-[![Go Report Card](https://goreportcard.com/badge/github.com/zaz600/brute-force-protector)](https://goreportcard.com/report/github.com/zaz600/brute-force-protector)
+[![Go](https://github.com/zaz600/brute-force-protector/actions/workflows/go-pr-check.yml/badge.svg)](https://github.com/zaz600/brute-force-protector/actions/workflows/go-pr-check.yml) [![Go Report Card](https://goreportcard.com/badge/github.com/zaz600/brute-force-protector)](https://goreportcard.com/report/github.com/zaz600/brute-force-protector)
+
+
 
 # Проектная работа - Bruteforce Protector Service
 - Курс [Golang Developer. Professional](https://otus.ru/lessons/golang-professional/)
