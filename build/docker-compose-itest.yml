@@ -1,0 +1,47 @@
+version: "3"
+
+services:
+  bp-server:
+    container_name: bp-server
+    build:
+      context: ../
+      dockerfile: build/Dockerfile
+#    ports:
+#      - "50051:50051"
+    environment:
+      - BP_LOGIN_LIMIT=10
+      - BP_PASSWORD_LIMIT=100
+      - BP_IP_LIMIT=1000
+      - BP_REDIS_HOST=redis-server:6379
+      - BP_ADDR=0.0.0.0:50051
+    networks:
+      - bp_net
+    depends_on:
+      - redis
+    restart: on-failure
+
+  redis:
+    container_name: redis-server
+    image: "redis:latest"
+#    ports:
+#      - "16379:6379"
+    networks:
+      - bp_net
+
+  itests:
+    container_name: itests
+    build:
+      context: ../
+      dockerfile: tests/Dockerfile
+    command: go test -v ./tests
+    environment:
+      - BP_ITEST_DOCKER=true
+    depends_on:
+      - bp-server
+      - redis
+    networks:
+      - bp_net
+
+networks:
+  bp_net:
+    driver: bridge

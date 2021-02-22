@@ -1,0 +1,55 @@
+name: Go
+
+on:
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Go 1.x
+        uses: actions/setup-go@v2
+        with:
+          go-version: ^1.14
+        id: go
+
+      - name: Check out code into the Go module directory
+        uses: actions/checkout@v2
+
+      - name: Get dependencies
+        run: |
+          if [ -f Gopkg.toml ]; then
+              curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
+              dep ensure
+          fi
+
+      - name: Build server
+        run: go build -v ./cmd/bp-server/...
+
+      - name: Build cli
+        run: go build -v ./cmd/bp-cli/...
+
+      - name: Unit tests
+        run: go test -gcflags=-l -v -race -count 100 ./internal/...
+
+      - name: Optimization tests
+        run: go test -gcflags=-l -v -count=5 -timeout=30s -bench=. -run=^$ ./...
+
+      - name: go fmt
+        run: go fmt ./internal/...
+
+      - name: go vet
+        run: go vet ./internal/...
+
+  golangci:
+    name: golangci-lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: golangci-lint
+        uses: golangci/golangci-lint-action@v2
+        with:
+          version: v1.36
+          args: --timeout=5m -v

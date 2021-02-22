@@ -1,0 +1,68 @@
+syntax = "proto3";
+
+package bruteforceprotector;
+
+option go_package = "api;protectorpb";
+
+message VerifyParams {
+  string login = 1;
+  string password = 2;
+  string ip = 3;
+}
+
+message VerifyRequest {
+  VerifyParams verifyParams = 1;
+}
+
+message VerifyResponse {
+  bool ok = 1;
+}
+
+message ResetLoginLimitRequest {
+  string login = 1;
+}
+
+message ResetLimitResponse {}
+
+message ResetIPLimitRequest {
+  string ip = 1;
+}
+
+message AddAccessListRequest {
+  string networkCIDR = 1;
+}
+
+message AddAccessListResponse {
+  bool result = 1;
+  string error = 2;
+}
+
+message RemoveAccessListRequest {
+  string networkCIDR = 1;
+}
+
+message RemoveAccessListResponse {
+  bool result = 1;
+  string error = 2;
+}
+
+message GetAccessListItemsRequest {}
+
+message GetAccessListItemsResponse {
+  repeated string items = 1;
+}
+
+
+service BruteforceProtectorService{
+  rpc Verify(VerifyRequest) returns(VerifyResponse) {};
+  rpc ResetLogin(ResetLoginLimitRequest) returns(ResetLimitResponse) {};
+  rpc ResetIP(ResetIPLimitRequest) returns(ResetLimitResponse) {};
+
+  rpc AddBlackListItem(AddAccessListRequest) returns(AddAccessListResponse) {};
+  rpc RemoveBlackListItem(RemoveAccessListRequest) returns(RemoveAccessListResponse) {};
+  rpc GetBlackListItems(GetAccessListItemsRequest) returns(GetAccessListItemsResponse) {};
+
+  rpc AddWhiteListItem(AddAccessListRequest) returns(AddAccessListResponse) {};
+  rpc RemoveWhiteListItem(RemoveAccessListRequest) returns(RemoveAccessListResponse) {};
+  rpc GetWhiteListItems(GetAccessListItemsRequest) returns(GetAccessListItemsResponse) {};
+}

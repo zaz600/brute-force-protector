@@ -1,0 +1,26 @@
+run:
+  tests: false
+  skip-dirs:
+    - api/
+
+linters:
+  disable-all: false
+  enable-all: true
+  disable:
+    - exhaustive
+    - exhaustivestruct
+    - goerr113
+    - gochecknoglobals
+    - gochecknoinits
+    - godox
+    - gofumpt
+    - gomnd
+    - lll
+    - nakedret
+    - nlreturn
+    - testpackage
+    - wsl
+    - wrapcheck
+    - forbidigo
+    - gci
+    - dupl
