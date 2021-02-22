@@ -1,5 +1,6 @@
-# Проектная работа - Bruteforce Protector Service
+[![Go Report Card](https://goreportcard.com/badge/github.com/zaz600/brute-force-protector)](https://goreportcard.com/report/github.com/zaz600/brute-force-protector)
 
+# Проектная работа - Bruteforce Protector Service
 - Курс [Golang Developer. Professional](https://otus.ru/lessons/golang-professional/)
 - [ТЗ](docs/specification.md)
 
