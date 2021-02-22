@@ -49,8 +49,8 @@
 - [x] grpc api .proto  
 - [x] grpc server  
 - [x] bruteforce protector cli (grpc)
-- [ ] ctx
+- [x] ctx
 - [ ] logger
-- [ ] tests
+- [x] tests
 - [x] Makefile
 - [x] Docker
